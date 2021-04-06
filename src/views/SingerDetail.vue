@@ -118,6 +118,8 @@ export default {
 
 <style lang="scss" scoped>
 .singer {
+	max-width: 1500px;
+	margin: 0 auto;
   &-detail {
     display: flex;
     align-items: center;

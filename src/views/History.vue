@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="history">
     <div class="title">
       <h1>播放历史</h1>
       <div class="playall" @click="playAll">播放全部</div>
@@ -40,4 +40,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.history {
+	max-width: 1500px;
+	margin: 0 auto;
+}
 </style>

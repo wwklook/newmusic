@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="profile">
     <el-container>
       <el-aside width="200px">
         <div class="title">
@@ -99,6 +99,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.profile {
+	max-width: 1500px;
+	margin: 0 auto;
+}
 .title {
   display: flex;
   flex-direction: column;

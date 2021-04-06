@@ -81,6 +81,8 @@ export default {
 
 <style lang="scss" scoped>
 .mv {
+	max-width: 1500px;
+	margin: 0 auto;
   &-list {
     display: flex;
     justify-content: space-evenly;

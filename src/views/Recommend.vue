@@ -181,6 +181,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.recommend {
+	max-width: 1500px;
+	margin: 0 auto;
+}
 .rcm {
   &-list {
     display: flex;

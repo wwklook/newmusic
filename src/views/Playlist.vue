@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="playlist">
     <el-container>
       <el-aside width="200px" style="margin: 20px;">
         <el-collapse v-model="activeName" accordion>
@@ -92,6 +92,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.playlist {
+	max-width: 1500px;
+	margin: 0 auto;
+}
 .content {
 	margin-top: 20px;
 }

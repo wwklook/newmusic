@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="search">
     <div class="search-head">
       <el-autocomplete
         style="flex: 1; max-width: 600px; height: 50px"
@@ -135,6 +135,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.search {
+	max-width: 1500px;
+	margin: 0 auto;
+}
 .search-head {
   width: 100%;
   height: 200px;

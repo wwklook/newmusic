@@ -180,6 +180,8 @@ export default {
         
 <style lang="scss" scoped>
 .menu {
+	max-width: 1500px;
+	margin: 0 auto;
   height: 60px;
   display: flex;
   align-items: center;

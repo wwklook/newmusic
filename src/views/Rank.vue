@@ -113,6 +113,8 @@ export default {
 .rank {
   display: flex;
 	margin-left: 20px;
+	max-width: 1500px;
+	margin: 0 auto;
 }
 
 .song {

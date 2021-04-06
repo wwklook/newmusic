@@ -79,6 +79,8 @@ export default {
 
 <style lang="scss" scoped>
 .artist {
+	max-width: 1500px;
+	margin: 0 auto;
   &-list {
     display: flex;
     flex-wrap: wrap;

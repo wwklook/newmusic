@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="playlist">
     <el-container>
       <el-aside width="240px" style="margin-left: 20px;">
         <img :src="playlist_info.img300" />
@@ -88,6 +88,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.playlist {
+	max-width: 1500px;
+	margin: 0 auto;
+}
+
 .song {
   &-list {
     flex: 1;

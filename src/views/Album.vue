@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="album">
     <el-container>
       <el-aside width="240px" style="margin-left: 20px;">
         <img :src="album_info.pic" />
@@ -86,6 +86,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.album {
+	max-width: 1500px;
+	margin: 0 auto;
+}
 .song {
   margin-left: 20px;
 

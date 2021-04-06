@@ -21,7 +21,7 @@
       <i class="iconfont icon-play" @click="play"></i>
       <i class="iconfont" :class="likeIcon" @click="like"></i>
       <i class="iconfont icon-download"></i>
-			<i class="iconfont el-icon-delete" @click="del"></i>
+			<i class="el-icon-delete" @click="del"></i>
     </div>
   </div>
 </template>

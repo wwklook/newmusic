@@ -2,6 +2,13 @@
   <div class="item">
     <div class="song_num">
       <div>{{ num + 1 }}</div>
+      <img
+        class="photo"
+        :src="
+          data.pic120 ||
+          'https://h5static.kuwo.cn/upload/image/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
+        "
+      />
       <!-- <img
         v-if="data.hasmv == 1"
         class="mv"
@@ -16,6 +23,9 @@
     <div class="song_singer">
       <span @click="toSinger">{{ data.artist }}</span>
     </div>
+    <div class="song_album">
+      <span @click="toAlbum">{{ data.album }}</span>
+    </div>
     <div class="song_time">{{ data.songTimeMinutes }}</div>
     <div class="ctrl">
       <i class="iconfont icon-play" @click="play"></i>
@@ -28,7 +38,7 @@
 </template>
 
 <script>
-import { addIlove, delILove } from "@/network/profile";
+import { delLike, addIlove, delILove } from "@/network/profile";
 export default {
   props: ["data", "num"],
   computed: {
@@ -46,6 +56,28 @@ export default {
     },
     add() {
       this.$bus.emit("addLikeSong", this.data);
+    },
+    del() {
+      this.$confirm(`是否将《${this.data.name}》从本歌单中移除？`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          delLike(this.data.rid, this.$route.query.gid).then(() => {
+            this.$message({
+              message: `成功将《${this.data.name}》从本歌单中移除！`,
+              type: "success",
+            });
+						this.$bus.emit("getLikeSong")
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作",
+          });
+        });
     },
     toSinger() {
       if (this.$route.name != "SingerDetail") {
@@ -65,16 +97,6 @@ export default {
     },
     toMV() {
       this.$router.push({ name: "MvPage", params: { index: this.num } });
-    },
-    del() {
-      this.$store.commit("delPlaylist", this.num);
-      if (this.$store.state.playList.length === 0) {
-        this.$bus.emit("playInit");
-        return;
-      }
-      if (this.num === this.$store.state.playIndex) {
-        this.$bus.emit("playMusic");
-      }
     },
     like() {
       if (this.islike) {
@@ -98,7 +120,7 @@ export default {
           .catch(() => {
             this.$message({
               type: "info",
-              message: "已取消删除",
+              message: "已取消操作",
             });
           });
       } else {
@@ -118,7 +140,6 @@ export default {
 <style scoped>
 i {
   cursor: pointer;
-  font-size: 14px;
 }
 
 .item {
@@ -131,12 +152,10 @@ i {
   user-select: none;
 }
 .item:hover .ctrl {
-  visibility: visible;
-  background-color: #eee;
+  display: flex;
 }
-
 .item:hover {
-  background-color: #eee;
+  background-color: #f5f5f5;
 }
 
 .song_num {
@@ -181,11 +200,10 @@ i {
   margin-left: 3px;
 }
 .ctrl {
-  width: 150px;
+  width: 200px;
   position: absolute;
   height: 60px;
-  display: flex;
-  visibility: hidden;
+  display: none;
   justify-content: space-around;
   align-items: center;
   background-color: #f5f5f5;

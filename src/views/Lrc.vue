@@ -57,6 +57,7 @@ export default {
     this.lrclist = data.lrc;
     this.$bus.on("changeLrc", (index) => {
       this.lrcIndex = index;
+      if (!this.$refs.lrc) return;
       animate(this.$refs.lrc, { scrollTop: index * 36 });
     });
     this.$bus.on("changeLrcList", () => {

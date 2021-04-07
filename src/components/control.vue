@@ -64,7 +64,6 @@
               <h4>播放列表</h4>
               <div class="song-total">共({{ playList.length }})首</div>
             </div>
-
             <div class="song-list">
               <simple-item
                 v-for="(item, index) in playList"
@@ -94,12 +93,27 @@
       @loadedmetadata="metadata"
       @timeupdate="update"
     ></audio>
+    <el-dialog title="添加至歌单" ref="add">
+      <template #footer>
+        <div class="dialog-footer">
+          <el-radio
+            v-model="radio"
+            v-for="item in likegroup"
+            :key="item.group_id"
+            :label="item.group_id"
+            style="text-align: left"
+            >{{ item.name }}</el-radio
+          >
+        </div>
+        <el-button type="primary" @click="submit">确 定</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { songinfo } from "@/network/api.js";
-import { addIlove, delILove } from "@/network/profile.js";
+import { addLike, addIlove, delILove } from "@/network/profile.js";
 import simpleItem from "@/components/simpleItem.vue";
 export default {
   components: {
@@ -128,6 +142,8 @@ export default {
       loopIcon: "icon-loop",
       isLoading: false, // 是否正在加载数据
       progress: 0,
+      radio: false,
+      add_data: "",
     };
   },
   computed: {
@@ -146,6 +162,9 @@ export default {
     playIcon() {
       return this.isPlaying ? "icon-pause" : "icon-play";
     },
+    likegroup() {
+      return this.$store.state.likegroup;
+    },
   },
   created() {
     let data = JSON.parse(localStorage.getItem("songinfo"));
@@ -159,6 +178,7 @@ export default {
 
     this.$bus.on("playMusic", this.replay);
     this.$bus.on("playInit", this.playInit);
+    this.$bus.on("addLikeSong", this.addLikeSong);
     this.$bus.on("changePlay", (index) => {
       if (index == this.playList.length - 1) {
         this.playIndex = 0;
@@ -269,6 +289,19 @@ export default {
         artistId: 0,
       };
       this.isInit = false;
+    },
+    addLikeSong(data) {
+      this.add_data = data;
+      this.$refs.add.visible = true;
+    },
+    submit() {
+      this.$refs.add.visible = false;
+      addLike(this.add_data, this.radio).then((res) => {
+        this.$message({
+          message: "添加成功",
+          type: "success",
+        });
+      });
     },
     lastSong() {
       if (!this.isInit) {
@@ -652,5 +685,8 @@ i {
 .song-total {
   margin: 0 5px;
   font-size: 17px;
+}
+.dialog-footer {
+  text-align: left;
 }
 </style>

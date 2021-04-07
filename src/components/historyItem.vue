@@ -29,6 +29,7 @@
     <div class="song_time">{{ data.songTimeMinutes }}</div>
     <div class="ctrl">
       <i class="iconfont icon-play" @click="play"></i>
+      <i class="iconfont icon-add" @click="add"></i>
       <i class="iconfont" :class="likeIcon" @click="like"></i>
       <i class="iconfont icon-download"></i>
       <i class="el-icon-delete" @click="del"></i>
@@ -37,7 +38,7 @@
 </template>
 
 <script>
-import { addLike, addIlove, delILove } from "@/network/profile";
+import { addIlove, delILove } from "@/network/profile";
 export default {
   props: ["data", "num"],
   computed: {
@@ -54,9 +55,7 @@ export default {
       this.$bus.emit("playMusic");
     },
     add() {
-      // addLike(this.data, this.data.rid).then((res) => {
-      //   console.log(res);
-      // });
+      this.$bus.emit("addLikeSong", this.data);
     },
     del() {
       this.$store.commit("delHistory", this.num);

@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { addLike, addIlove, delILove } from "@/network/profile";
+import { addIlove, delILove } from "@/network/profile";
 export default {
   props: ["data", "num"],
   computed: {
@@ -54,9 +54,7 @@ export default {
       this.$bus.emit("playMusic");
     },
     add() {
-      // addLike(this.data, this.data.rid).then((res) => {
-      //   console.log(res);
-      // });
+      this.$bus.emit("addLikeSong", this.data);
     },
     toSinger() {
       if (this.$route.name != "SingerDetail") {

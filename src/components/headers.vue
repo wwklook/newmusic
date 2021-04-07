@@ -39,27 +39,38 @@
       </template>
     </el-autocomplete>
     <div class="right">
-      <img
-        class="avatar"
-        src="https://i0.hdslb.com/bfs/face/member/noface.jpg"
-      />
-      <div class="menu-item" @click="toLove">
-        <span :class="{ selected: name === 'Love' }">我的音乐</span>
+      <div class="menu-item">
+        <el-popover placement="bottom" width="150px" trigger="hover">
+          <div class="profile-list">
+            <div class="profile-item">
+              <span @click="toLove">我喜欢</span>
+            </div>
+            <div class="profile-item">
+              <span @click="toRcm">我的歌单</span>
+            </div>
+            <div class="profile-item">
+              <span @click="toLike">我的收藏</span>
+            </div>
+          </div>
+          <template #reference
+            ><img
+              class="avatar"
+              src="https://i0.hdslb.com/bfs/face/member/noface.jpg"
+          /></template>
+        </el-popover>
       </div>
-      <div class="menu-item" @click="toRcm">
-        <span :class="{ selected: name === 'Rcm' }">我的收藏</span>
-      </div>
+
       <div class="menu-item" @click="toHistory">
         <span :class="{ selected: name === 'History' }">播放历史</span>
       </div>
-      <div class="menu-item">
+      <!-- <div class="menu-item">
         <el-popover placement="bottom" width="150px" trigger="hover">
           <div class="theme-item" v-for="(item, index) in theme" :key="index">
             <span @click="changeTheme(index)">{{ item.name }}</span>
           </div>
           <template #reference><span>主题</span></template>
         </el-popover>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -126,6 +137,9 @@ export default {
     toRcm() {
       this.$router.push("/music/profile/rcm");
     },
+    toLike() {
+      this.$router.push("/music/profile/like_rcm");
+    },
     toHistory() {
       this.$router.push("/music/history");
     },
@@ -180,8 +194,8 @@ export default {
         
 <style lang="scss" scoped>
 .menu {
-	max-width: 1500px;
-	margin: 0 auto;
+  max-width: 1500px;
+  margin: 0 auto;
   height: 60px;
   display: flex;
   align-items: center;
@@ -203,6 +217,7 @@ export default {
 }
 
 .avatar {
+	margin-top: 20px;
   margin-right: 20px;
   width: 40px;
   height: 40px;
@@ -217,5 +232,16 @@ export default {
 }
 .theme-item:first-child {
   border-top: none;
+}
+
+.profile-item {
+  border-top: 1px solid #eee;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+.profile-item:first-child {
+  border-top: 1px solid #fff;
 }
 </style>

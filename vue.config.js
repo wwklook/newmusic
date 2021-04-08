@@ -29,6 +29,9 @@ module.exports = {
   assetsDir: 'newmusic_static',
   indexPath: 'newmusic.html',
   productionSourceMap: false,
+  css: {
+	sourceMap: false
+  },
   chainWebpack: config => {
     config.plugin('html').tap(args => {
       // 生产环境或本地需要cdn时，才注入cdn
@@ -51,7 +54,7 @@ module.exports = {
       const productionGzipExtensions = ['html', 'js', 'css']
       config.plugins.push(
         new CompressionWebpackPlugin({
-          filename: '[path].gz[query]',
+          filename: '[path][base].gz',
           algorithm: 'gzip',
           test: new RegExp(
             '\\.(' + productionGzipExtensions.join('|') + ')$'

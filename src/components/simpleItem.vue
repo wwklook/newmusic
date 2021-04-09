@@ -2,15 +2,15 @@
   <div class="item">
     <div class="song_num">
       <div>{{ num + 1 }}</div>
-      <!-- <img
-        v-if="data.hasmv == 1"
-        class="mv"
-        title="播放MV"
-        @click="toMV"
-        src="~assets/icon/MV.png"
-      /> -->
     </div>
     <div class="song_name">
+      <i
+        v-if="data.hasmv == 1"
+        title="播放MV"
+        @click="toMV"
+        class="iconfont icon-mv"
+        style="font-size: 20px; margin-left: 5px"
+      />
       <span @click="play">{{ data.name }}</span>
     </div>
     <div class="song_singer">
@@ -64,7 +64,7 @@ export default {
       }
     },
     toMV() {
-      this.$router.push({ name: "MvPage", params: { index: this.num } });
+      this.$router.push({ name: "Mv", query: { rid: this.data.rid } });
     },
     del() {
       this.$store.commit("delPlaylist", this.num);

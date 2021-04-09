@@ -41,7 +41,7 @@
     <div class="right">
       <div class="menu-item">
         <el-popover placement="bottom" width="150px" trigger="hover">
-          <div class="profile-list">
+          <div class="profile-list" v-if="islogin">
             <div class="profile-item">
               <span @click="toLove">我喜欢</span>
             </div>
@@ -50,6 +50,31 @@
             </div>
             <div class="profile-item">
               <span @click="toLike">我的收藏</span>
+            </div>
+            <div class="profile-item">
+              <span @click="logout">退出</span>
+            </div>
+          </div>
+          <div class="profile-list" v-else>
+            <div class="profile-item">
+              <span
+                ><a
+                  href="https://wwklook.com/login.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >登录</a
+                ></span
+              >
+            </div>
+            <div class="profile-item">
+              <span
+                ><a
+                  href="https://wwklook.com/register.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >注册</a
+                ></span
+              >
             </div>
           </div>
           <template #reference
@@ -77,6 +102,7 @@
         
 <script>
 import { searchKey } from "@/network/api";
+import { LogOut } from "@/network/profile";
 export default {
   data() {
     return {
@@ -114,6 +140,9 @@ export default {
     name() {
       return this.$route.name;
     },
+    islogin() {
+      return this.$store.state.isLogin;
+    },
   },
   methods: {
     toIndex() {
@@ -142,6 +171,15 @@ export default {
     },
     toHistory() {
       this.$router.push("/music/history");
+    },
+    logout() {
+      LogOut().then(() => {
+        this.$store.commit("changeLoginState", false);
+        this.$message({
+          message: "已成功登出",
+          type: "success",
+        });
+      });
     },
     changeTheme(index) {
       document
@@ -217,7 +255,7 @@ export default {
 }
 
 .avatar {
-	margin-top: 20px;
+  margin-top: 20px;
   margin-right: 20px;
   width: 40px;
   height: 40px;

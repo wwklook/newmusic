@@ -33,7 +33,7 @@ export default {
   &-item {
     width: 12%;
 		padding: 1.2%;
-    margin-top: 40px;
+		margin: 20px 1.1%;
     text-align: center;
 
     img {

@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <el-container>
+    <el-container v-if="isLogin">
       <el-aside width="200px">
         <div class="title">
           <h4>我的音乐</h4>
@@ -62,6 +62,17 @@
         <router-view></router-view>
       </el-main>
     </el-container>
+    <div v-else>
+      <a
+        class="no-login"
+        href="https://wwklook.com/login.html"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="iconfont icon-nologin"></i>
+        请先登录
+      </a>
+    </div>
   </div>
 </template>
 
@@ -79,6 +90,9 @@ export default {
     },
     name() {
       return this.$route.name;
+    },
+    isLogin() {
+      return this.$store.state.isLogin;
     },
   },
   methods: {
@@ -167,5 +181,19 @@ h4 {
 
 .title span {
   margin: 0;
+}
+.no-login {
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  i {
+    font-size: 150px;
+    color: #333;
+    margin-bottom: 10px;
+  }
 }
 </style>

@@ -9,13 +9,13 @@
           'https://h5static.kuwo.cn/upload/image/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png'
         "
       />
-      <!-- <img
+      <i
         v-if="data.hasmv == 1"
-        class="mv"
         title="播放MV"
         @click="toMV"
-        src="~assets/icon/MV.png"
-      /> -->
+        class="iconfont icon-mv"
+        style="font-size: 20px; margin-left: 5px"
+      />
     </div>
     <div class="song_name">
       <span @click="play">{{ data.name }}</span>
@@ -77,7 +77,7 @@ export default {
       }
     },
     toMV() {
-      this.$router.push({ name: "MvPage", params: { index: this.num } });
+      this.$router.push({ name: "Mv", query: { rid: this.data.rid } });
     },
     like() {
       if (this.islike) {
@@ -142,25 +142,25 @@ i {
 .song_num {
   display: flex;
   align-items: center;
-  width: 10%;
+  width: 15%;
   font-weight: 600;
   margin-left: 30px;
 }
 .song_name {
-  width: 30%;
+  width: 25%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 .song_album {
-  width: 20%;
+  width: 25%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
 .song_singer {
-  width: 30%;
+  width: 25%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

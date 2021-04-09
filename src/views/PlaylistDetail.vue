@@ -1,7 +1,7 @@
 <template>
   <div class="playlist">
     <el-container>
-      <el-aside width="240px" style="margin-left: 20px;">
+      <el-aside width="240px" style="margin-left: 20px">
         <img :src="playlist_info.img300" />
         <h2>歌单简介</h2>
         <div class="info">
@@ -20,7 +20,9 @@
           <div class="play-all" @click="playAll">
             <i class="iconfont icon-cnt"></i>播放全部
           </div>
-          <div class="like"><i class="iconfont icon-unlike"></i>收藏</div>
+          <div class="like" @click="like">
+            <i class="iconfont" :class="likeIcon"></i>收藏
+          </div>
         </div>
 
         <song-header></song-header>
@@ -50,6 +52,7 @@
 import songItem from "@/components/songItem.vue";
 import songHeader from "@/components/songHeader.vue";
 import { playListInfo } from "@/network/api.js";
+import { addRcm, delRcm } from "@/network/profile";
 export default {
   components: {
     songItem,
@@ -68,6 +71,14 @@ export default {
     this.pid = this.$route.query.pid;
     this.get_playList();
   },
+  computed: {
+    islike() {
+      return this.$store.state.rcm_id.indexOf(this.pid + "") !== -1;
+    },
+    likeIcon() {
+      return this.islike ? "icon-like" : "icon-unlike";
+    },
+  },
   methods: {
     changePage(pn) {
       this.pn = pn;
@@ -83,20 +94,59 @@ export default {
       this.$store.commit("changePlaylist", this.playlist_info.musicList);
       this.$bus.emit("playMusic");
     },
+    like() {
+      if (this.islike) {
+        this.$confirm(
+          `是否将《${this.playlist_info.name}》从“收藏的歌单”中移除？`,
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          }
+        )
+          .then(() => {
+            delRcm(this.pid).then(() => {
+              let index = this.$store.state.rcm_id.indexOf(this.pid + "");
+              this.$store.commit("delRcm", index);
+              this.$message({
+                message: `已从“收藏的歌单”中移除《${this.playlist_info.name}》！`,
+                type: "success",
+              });
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消操作",
+            });
+          });
+      } else {
+        let data = { ...this.playlist_info };
+        delete data.musicList;
+        addRcm(data).then(() => {
+          this.$store.commit("addRcm", data);
+          this.$message({
+            message: `已添加《${this.playlist_info.name}》至“收藏的歌单”`,
+            type: "success",
+          });
+        });
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .playlist {
-	max-width: 1500px;
-	margin: 0 auto;
+  max-width: 1500px;
+  margin: 0 auto;
 }
 
 .song {
   &-list {
     flex: 1;
-		margin-left: 20px;
+    margin-left: 20px;
   }
   &-item {
     padding: 5px 10px;

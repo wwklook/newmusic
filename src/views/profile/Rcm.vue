@@ -26,7 +26,6 @@ export default {
   data() {
     return {
       likesong: [],
-      groupinfo: {},
     };
   },
   watch: {
@@ -38,8 +37,9 @@ export default {
     },
   },
   computed: {
-    likegroup() {
-      return this.$store.state.likegroup;
+    groupinfo() {
+			if (this.$store.state.likegroup.length === 0) return {}
+      return this.$store.state.likegroup[this.$route.query.index] || {};
     },
   },
   created() {
@@ -60,7 +60,6 @@ export default {
       if (!this.$route.query.gid) return;
       getLike(this.$route.query.gid).then((res) => {
         this.likesong = res.data.like_song;
-        this.groupinfo = this.likegroup[this.$route.query.index] || {};
       });
     },
   },

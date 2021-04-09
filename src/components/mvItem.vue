@@ -1,6 +1,6 @@
 <template>
   <div class="mv-item">
-    <div class="mv-img">
+    <div class="mv-img" @click="toMV">
       <img :src="data.pic" />
       <div class="mv-cnt">
         <i class="iconfont icon-cnt"></i>{{ ellipsis(data.mvPlayCnt) }}
@@ -9,10 +9,10 @@
       <div class="mv-shadow"></div>
     </div>
     <div class="mv-name">
-      <span>{{ data.name }}</span>
+      <span @click="toMV">{{ data.name }}</span>
     </div>
     <div class="mv-artist">
-      <span>{{ data.artist }}</span>
+      <span @click="toSinger">{{ data.artist }}</span>
     </div>
   </div>
 </template>
@@ -30,6 +30,17 @@ export default {
       };
     },
   },
+  methods: {
+    toMV() {
+      this.$router.push({ name: "Mv", query: { rid: this.data.id } });
+    },
+    toSinger() {
+      this.$router.push({
+        name: "SingerDetail",
+        query: { aid: this.data.artistid },
+      });
+    },
+  },
 };
 </script>
 
@@ -45,6 +56,7 @@ export default {
     color: #fff;
     font-size: 15px;
     overflow: hidden;
+		cursor: pointer;
 
     img {
       width: 100%;

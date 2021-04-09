@@ -79,7 +79,7 @@ export default {
 
 <style lang="scss" scoped>
 .artist {
-	max-width: 1500px;
+	max-width: 1400px;
 	margin: 0 auto;
   &-list {
     display: flex;

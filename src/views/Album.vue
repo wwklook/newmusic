@@ -137,7 +137,7 @@ export default {
 
 <style lang="scss" scoped>
 .album {
-  max-width: 1500px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 .song {

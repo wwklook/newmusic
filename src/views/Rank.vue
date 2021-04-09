@@ -112,7 +112,7 @@ export default {
 
 .rank {
   display: flex;
-	max-width: 1500px;
+	max-width: 1400px;
 	margin: 20px auto;
 }
 

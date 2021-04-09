@@ -1,5 +1,22 @@
 import { requests } from './index'
 
+
+// 获取用户信息
+export function getUserInfo() {
+	return requests({
+		url: '/music_userinfo',
+	})
+}
+
+// 登出
+export function LogOut() {
+	return requests({
+		url: '/logout',
+	})
+}
+
+
+
 // 自定义收藏分组
 export function getLikeGroup() {
 	return requests({
@@ -75,13 +92,13 @@ export function delILove(rid) {
 
 // 收藏歌单
 
-export function getLikeRcm() {
+export function getRcm() {
 	return requests({
 		url: '/like_rcm',
 	})
 }
 
-export function addLikeRcm(data) {
+export function addRcm(data) {
 	return requests({
 		url: '/like_rcm',
 		data: JSON.stringify({ data }),
@@ -90,7 +107,7 @@ export function addLikeRcm(data) {
 	})
 }
 
-export function delLikeRcm(pid) {
+export function delRcm(pid) {
 	return requests({
 		url: '/like_rcm',
 		method: 'delete',
@@ -100,13 +117,13 @@ export function delLikeRcm(pid) {
 
 
 // 收藏歌手
-export function getLikeSinger() {
+export function getSinger() {
 	return requests({
 		url: '/like_singer',
 	})
 }
 
-export function addLikeSinger(data) {
+export function addSinger(data) {
 	return requests({
 		url: '/like_singer',
 		data: JSON.stringify({ data }),
@@ -115,7 +132,7 @@ export function addLikeSinger(data) {
 	})
 }
 
-export function delLikeSinger(aid) {
+export function delSinger(aid) {
 	return requests({
 		url: '/like_singer',
 		method: 'delete',
@@ -125,13 +142,13 @@ export function delLikeSinger(aid) {
 
 
 // 收藏专辑
-export function getLikeAlbum() {
+export function getAlbum() {
 	return requests({
 		url: '/like_album',
 	})
 }
 
-export function addLikeAlbum(data) {
+export function addAlbum(data) {
 	return requests({
 		url: '/like_album',
 		data: JSON.stringify({ data }),
@@ -140,7 +157,7 @@ export function addLikeAlbum(data) {
 	})
 }
 
-export function delLikeAlbum(aid) {
+export function delAlbum(aid) {
 	return requests({
 		url: '/like_album',
 		method: 'delete',

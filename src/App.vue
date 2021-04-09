@@ -33,6 +33,14 @@ export default {
   padding: 0;
 }
 
+a {
+	text-decoration: none;
+}
+
+a:hover, a:active, a:focus, a:visited {
+	color: inherit;
+}
+
 h1 {
   font-size: 32px;
 }

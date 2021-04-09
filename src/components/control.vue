@@ -5,17 +5,24 @@
         <img id="img" :src="songInfo.pic120 || defaultImg" @click="toLrc" />
         <div class="info">
           <div class="song">
-            <div class="song-info">
-              <span id="sname" :title="songInfo.name || ''" @click="toLrc">{{
-                songInfo.name
-              }}</span>
-              <span>&nbsp;-&nbsp;</span>
-              <span
-                id="sartist"
-                @click="toSinger"
-                :title="songInfo.artist || ''"
-                >{{ songInfo.artist || "" }}</span
-              >
+            <div style="display: flex; align-items: center; width: 100%">
+              <div class="song-info">
+                <span id="sname" @click="toLrc">{{ songInfo.name }}</span>
+                <span>&nbsp;-&nbsp;</span>
+                <span
+                  id="sartist"
+                  @click="toSinger"
+                  :title="songInfo.artist || ''"
+                  >{{ songInfo.artist || "" }}</span
+                >
+              </div>
+              <i
+                v-if="songInfo.hasmv == 1"
+                title="播放MV"
+                @click="toMV"
+                class="iconfont icon-mv"
+                style="font-size: 20px; margin-left: 5px"
+              />
             </div>
             <span id="time">{{ time || "00:00/00:00" }}</span>
           </div>
@@ -74,7 +81,9 @@
               ></simple-item>
             </div>
           </div>
-          <template #reference><i class="iconfont icon-playlist"></i></template>
+          <template #reference
+            ><i class="iconfont icon-playlist" title="播放列表"></i
+          ></template>
         </el-popover>
         <el-tooltip effect="light" content="歌词" placement="top">
           <i class="iconfont icon-open-lyric" style="font-size: 24px"></i>
@@ -127,7 +136,6 @@ export default {
       isInit: false, // 是否初始化(指播放第一首音乐)
       time: "00:00/00:00", // 播放时间文本
       volume: 80, // 音量
-      // vol_img: require("assets/icon/volume.png"),
       defaultImg:
         "https://h5static.kuwo.cn/upload/image/4f768883f75b17a426c95b93692d98bec7d3ee9240f77f5ea68fc63870fdb050.png",
       songInfo: {
@@ -171,9 +179,11 @@ export default {
     if (data) {
       this.songInfo = data.songinfo;
       this.$store.commit("addPlaylist", this.songInfo);
-      this.lrclist = data.lrc;
-      this.url = data.url;
-      this.isInit = true;
+      songinfo(this.songInfo.rid).then((res) => {
+        this.lrclist = res.data.lrc;
+        this.url = res.data.url;
+        this.isInit = true;
+      });
     }
 
     this.$bus.on("playMusic", this.replay);
@@ -387,7 +397,7 @@ export default {
       }
     },
     start: function () {
-      this.time = "00:00/00:00";
+      this.time = "00:00/" + this.songInfo.songTimeMinutes;
       this.progress = 0;
     },
     metadata: function () {
@@ -465,6 +475,9 @@ export default {
           params: { lrclist: this.lrclist, songInfo: this.songInfo },
         });
       }
+    },
+    toMV() {
+      this.$router.push({ name: "Mv", query: { rid: this.songInfo.rid } });
     },
     toSinger() {
       this.$router.push({
@@ -576,6 +589,10 @@ function animate(obj, json, fn) {
 
 #sartist {
   cursor: pointer;
+}
+
+#time {
+	cursor: auto;
 }
 
 .info input[type="range"] {

@@ -21,7 +21,9 @@
           <div class="play-all" @click="playAll">
             <i class="iconfont icon-cnt"></i>播放全部
           </div>
-          <div class="like"><i class="iconfont icon-unlike"></i>收藏</div>
+          <div class="like" @click="like">
+            <i class="iconfont" :class="likeIcon"></i>收藏
+          </div>
         </div>
       </div>
     </div>
@@ -58,6 +60,7 @@
 import songItem from "@/components/songItem.vue";
 import songHeader from "@/components/songHeader.vue";
 import { artist, artistMusic } from "@/network/api.js";
+import { addSinger, delSinger } from "@/network/profile";
 export default {
   components: {
     songItem,
@@ -66,6 +69,12 @@ export default {
   computed: {
     name() {
       return this.$route.name;
+    },
+    islike() {
+      return this.$store.state.singer_id.indexOf(this.aid + "") !== -1;
+    },
+    likeIcon() {
+      return this.islike ? "icon-like" : "icon-unlike";
     },
   },
   watch: {
@@ -76,7 +85,7 @@ export default {
         artist(this.aid).then((res) => {
           this.singer_info = res.data;
         });
-				this.get_artistMusic();
+        this.get_artistMusic();
       },
     },
   },
@@ -112,14 +121,51 @@ export default {
       this.$store.commit("changePlaylist", this.song_list);
       this.$bus.emit("playMusic");
     },
+    like() {
+      if (this.islike) {
+        this.$confirm(
+          `是否将《${this.singer_info.name}》从“收藏的歌手”中移除？`,
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          }
+        )
+          .then(() => {
+            delSinger(this.aid).then(() => {
+              let index = this.$store.state.singer_id.indexOf(this.aid + "");
+              this.$store.commit("delSinger", index);
+              this.$message({
+                message: `已从“收藏的歌手”中移除《${this.singer_info.name}》！`,
+                type: "success",
+              });
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消操作",
+            });
+          });
+      } else {
+        addSinger(this.singer_info).then(() => {
+          this.$store.commit("addSinger", this.singer_info);
+          this.$message({
+            message: `已添加《${this.singer_info.name}》至“收藏的歌手”`,
+            type: "success",
+          });
+        });
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .singer {
-	max-width: 1500px;
-	margin: 0 auto;
+  max-width: 1500px;
+  margin: 0 auto;
   &-detail {
     display: flex;
     align-items: center;

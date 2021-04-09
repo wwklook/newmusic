@@ -41,7 +41,7 @@ export default {
 .rcm {
   &-item {
     width: 17%;
-    margin-bottom: 40px;
+		margin: 0 1.5% 40px;
   }
 
   &-img {

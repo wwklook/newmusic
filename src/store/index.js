@@ -12,9 +12,38 @@ export default createStore({
 		isLogin: false,
 		historyList: [],
 		historyRid: [],
-		setting: {}
+		setting: {},
+
+		album_list: [],
+		rcm_list: [],
+		singer_list: [],
+		album_id: [],
+		rcm_id: [],
+		singer_id: [],
+		userinfo: {},
 	},
 	mutations: {
+		Init(state, data) {
+			state.isLogin = data.login
+			state.ilovelist = data.love_list
+			state.iloverid = data.love_list.map((item) => {
+				return item.rid;
+			});
+			state.likegroup = data.group_list
+			state.album_list = data.album_list
+			state.rcm_list = data.rcm_list
+			state.singer_list = data.singer_list
+			state.album_id = data.album_list.map((item) => {
+				return item.aid;
+			});
+			state.rcm_id = data.rcm_list.map((item) => {
+				return item.pid;
+			});
+			state.singer_id = data.singer_list.map((item) => {
+				return item.aid;
+			});
+			state.userinfo = data.userinfo
+		},
 		changeSetting(state, setting) {
 			state.setting = setting
 		},
@@ -100,7 +129,32 @@ export default createStore({
 				"historyList",
 				JSON.stringify(state.historyList)
 			);
-		}
+		},
+
+		addAlbum(state, data) {
+			state.album_list.push(data)
+			state.album_id.push(data.albumid + "")
+		},
+		delAlbum(state, index) {
+			state.album_list.splice(index, 1)
+			state.album_id.splice(index, 1)
+		},
+		addSinger(state, data) {
+			state.singer_list.push(data)
+			state.singer_id.push(data.id + "")
+		},
+		delSinger(state, index) {
+			state.singer_list.splice(index, 1)
+			state.singer_id.splice(index, 1)
+		},
+		addRcm(state, data) {
+			state.rcm_list.push(data)
+			state.rcm_id.push(data.id + "")
+		},
+		delRcm(state, index) {
+			state.rcm_list.splice(index, 1)
+			state.rcm_id.splice(index, 1)
+		},
 	},
 	actions: {
 	},

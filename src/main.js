@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import mitt from 'mitt';
 import installElementPlus from './plugins/element'
-import { getIlove, getLikeGroup } from "@/network/profile.js";
+import { getUserInfo } from "@/network/profile.js";
 
 
 const app = createApp(App)
@@ -28,18 +28,11 @@ store.commit("changeSetting", setting)
 
 
 // 获取用户“我喜欢”列表
-getIlove().then((res) => {
-	store.commit("changeIlovelist", res.data.love_list);
-	let rid_list = res.data.love_list.map((item) => {
-		return item.rid;
-	});
-	store.commit("changeIloverid", rid_list);
+getUserInfo().then((res) => {
+	if (!res.data.login) return
+	store.commit("Init", res.data);
 });
 
-// 获取用户收藏列表
-getLikeGroup().then((res) => {
-	store.commit("changeLikeGroup", res.data.like_group);
-});
 
 // 获取用户播放历史
 let historyList = JSON.parse(localStorage.getItem("historyList")) || [];

@@ -4,6 +4,7 @@ const Music = () => import('@/Music.vue')
 
 
 const Mvs = () => import('@/views/Mvs.vue')
+const Mv = () => import('@/views/Mv.vue')
 const Rank = () => import('@/views/Rank.vue')
 const Playlist = () => import('@/views/Playlist.vue')
 const PlaylistDetail = () => import('@/views/PlaylistDetail.vue')
@@ -58,6 +59,10 @@ const routes = [
         path: 'mvs',
         name: 'Mvs',
         component: Mvs
+      }, {
+        path: 'mv',
+        name: 'Mv',
+        component: Mv
       }, {
         path: 'singers',
         name: 'Singers',

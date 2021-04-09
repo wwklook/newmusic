@@ -1,9 +1,9 @@
 <template>
   <div class="recommend">
     <div class="block">
-      <el-carousel height="230px">
-        <el-carousel-item v-for="(item, index) in carousel_list" :key="index">
-          <img class="small" :src="item" />
+      <el-carousel height="230px" ref="banner">
+        <el-carousel-item v-for="item in banner_list" :key="item.id">
+          <img class="small" :src="item.pic" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -52,7 +52,9 @@
                 <span @click="play(music)">{{ music.name }}</span>
               </div>
               <div class="song-artist">
-                <span @click="toSingerDetail(music.artistid)">{{ music.artist }}</span>
+                <span @click="toSingerDetail(music.artistid)">{{
+                  music.artist
+                }}</span>
               </div>
             </div>
           </div>
@@ -97,13 +99,7 @@ export default {
   },
   data() {
     return {
-      carousel_list: [
-        "https://kwimg4.kuwo.cn/star/upload/47/52/1557311466098_.png",
-        "https://kwimg3.kuwo.cn/star/upload/80/59/1615642788455_.jpg",
-        "https://kwimg4.kuwo.cn/star/upload/13/59/1615552721653_.jpg",
-        "https://kwimg3.kuwo.cn/star/upload/7/7/1615478322157_.jpg",
-        "https://kwimg3.kuwo.cn/star/upload/65/56/1604927173178_.jpg",
-      ],
+      banner_list: [],
       rcm_playlist: [],
       rcm_tags: [],
       rcm_index: null,
@@ -114,10 +110,19 @@ export default {
     };
   },
   created() {
+    const loadbanner = this.$loading({
+      target: this.$refs.banner,
+      text: "加载中",
+    });
     indexInfo().then((res) => {
       this.rcm_tags = res.data.playlist_tag;
       this.rank_list = res.data.rank_list;
       this.artist_tags = res.data.artist_tag;
+      this.banner_list = res.data.banner;
+      setTimeout(() => {
+        this.$refs.banner.setActiveItem(0);
+				loadbanner.close()
+      }, 0);
     });
     this.getRecommend();
     this.artistClicked(11, 0);
@@ -151,10 +156,10 @@ export default {
         this.artist_list = res.data.artistList;
       });
     },
-		play(data) {
-			this.$store.commit("addPlaylist", data);
+    play(data) {
+      this.$store.commit("addPlaylist", data);
       this.$bus.emit("playMusic");
-		},
+    },
     toPlaylist() {
       this.$router.push({
         name: "Playlist",
@@ -182,10 +187,11 @@ export default {
 
 <style lang="scss" scoped>
 .recommend {
-	max-width: 1500px;
-	margin: 0 auto;
+  max-width: 1500px;
+  margin: 0 auto;
 }
 .rcm {
+  height: 350px;
   &-list {
     display: flex;
     justify-content: space-evenly;

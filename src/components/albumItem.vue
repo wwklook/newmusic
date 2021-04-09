@@ -30,7 +30,7 @@ export default {
 .album {
   &-item {
     width: 17%;
-    margin-bottom: 40px;
+		margin: 20px 1.5%;
   }
 
   &-img {

@@ -1,7 +1,7 @@
 <template>
   <div class="recommend">
     <div class="block">
-      <el-carousel height="230px" ref="banner">
+      <el-carousel height="340px" ref="banner">
         <el-carousel-item v-for="item in banner_list" :key="item.id">
           <img class="small" :src="item.pic" />
         </el-carousel-item>
@@ -187,11 +187,12 @@ export default {
 
 <style lang="scss" scoped>
 .recommend {
-  max-width: 1500px;
+  max-width: 1400px;
+	min-width: 1400px;
   margin: 0 auto;
 }
 .rcm {
-  height: 350px;
+  height: 380px;
   &-list {
     display: flex;
     justify-content: space-evenly;

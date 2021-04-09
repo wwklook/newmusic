@@ -232,7 +232,8 @@ export default {
         
 <style lang="scss" scoped>
 .menu {
-  max-width: 1500px;
+  max-width: 1400px;
+	min-width: 750px;
   margin: 0 auto;
   height: 60px;
   display: flex;

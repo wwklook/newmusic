@@ -1,7 +1,7 @@
 const path = require('path');
 
 function resolve(dir) {
-  return path.join(__dirname, dir)
+	return path.join(__dirname, dir)
 }
 
 const devNeedCdn = false
@@ -9,20 +9,20 @@ const isProduction = process.env.NODE_ENV !== 'development';
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 const cdn = {
-  // cdn：模块名称和模块作用域命名（对应window里面挂载的变量名称）
-  externals: {
-    // vue: 'Vue',
-    // vuex: 'Vuex',
-    // 'vue-router': 'VueRouter',
-    'axios': 'axios'
-  },
-  // cdn的js链接
-  js: [
-    // 'https://cdn.bootcss.com/vue/2.6.12/vue.min.js',
-    // 'https://cdn.bootcss.com/vuex/3.1.2/vuex.min.js',
-    // 'https://cdn.bootcss.com/vue-router/3.1.3/vue-router.min.js',
-    'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js'
-  ]
+	// cdn：模块名称和模块作用域命名（对应window里面挂载的变量名称）
+	externals: {
+		// vue: 'Vue',
+		// vuex: 'Vuex',
+		// 'vue-router': 'VueRouter',
+		'axios': 'axios'
+	},
+	// cdn的js链接
+	js: [
+		// 'https://cdn.bootcss.com/vue/2.6.12/vue.min.js',
+		// 'https://cdn.bootcss.com/vuex/3.1.2/vuex.min.js',
+		// 'https://cdn.bootcss.com/vue-router/3.1.3/vue-router.min.js',
+		'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js'
+	]
 }
 
 module.exports = {

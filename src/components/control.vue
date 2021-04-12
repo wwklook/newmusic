@@ -62,8 +62,12 @@
         <el-tooltip effect="light" content="下载" placement="top">
           <a
             class="iconfont icon-download"
-            :href="'https://www.wwklook.com/api/music_url?rid=' + songInfo.rid"
-            :download="songInfo.name + '.mp3'"
+            :href="
+              'https://www.wwklook.com/api/music_url?rid=' +
+              songInfo.rid +
+              '&name=' +
+              songInfo.name
+            "
           ></a>
         </el-tooltip>
         <el-tooltip effect="light" :content="loopName" placement="top">

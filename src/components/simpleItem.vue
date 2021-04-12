@@ -23,8 +23,12 @@
       <i class="iconfont" :class="likeIcon" @click="like"></i>
       <a
         class="iconfont icon-download"
-        :href="'https://www.wwklook.com/api/music_url?rid=' + data.rid"
-        :download="data.name + '.mp3'"
+        :href="
+          'https://www.wwklook.com/api/music_url?rid=' +
+          data.rid +
+          '&name=' +
+          data.name
+        "
       ></a>
       <i class="el-icon-delete" @click="del"></i>
     </div>

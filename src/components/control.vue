@@ -60,7 +60,11 @@
           <i class="iconfont" :class="likeIcon" @click="like"></i>
         </el-tooltip>
         <el-tooltip effect="light" content="下载" placement="top">
-          <i @click="download" class="iconfont icon-download"></i>
+          <a
+            class="iconfont icon-download"
+            :href="'https://www.wwklook.com/api/music_url?rid=' + songInfo.rid"
+            :download="songInfo.name + '.mp3'"
+          ></a>
         </el-tooltip>
         <el-tooltip effect="light" :content="loopName" placement="top">
           <i class="iconfont" :class="loopIcon" @click="loop"></i>
@@ -124,7 +128,6 @@
 import { songinfo } from "@/network/api.js";
 import { addLike, addIlove, delILove } from "@/network/profile.js";
 import simpleItem from "@/components/simpleItem.vue";
-import axios from "axios";
 export default {
   components: {
     simpleItem,
@@ -313,21 +316,6 @@ export default {
           type: "success",
         });
       });
-    },
-    download() {
-      axios
-        .get("/kwapi/" + this.url.slice(25), { responseType: "blob" })
-        .then((res) => {
-          let url = window.URL.createObjectURL(new Blob([res.data]));
-          let a = document.createElement("a");
-          a.href = url;
-          a.download = this.songInfo.name + ".mp3";
-          a.click();
-          this.$message({
-            message: "下载成功",
-            type: "success",
-          });
-        });
     },
     lastSong() {
       if (!this.isInit) {
@@ -598,7 +586,8 @@ input[type="range"]::-ms-fill-lower {
   background: #82a5a3;
 }
 
-i {
+i,
+a {
   cursor: pointer;
   margin-left: 30px;
   margin-right: 15px;

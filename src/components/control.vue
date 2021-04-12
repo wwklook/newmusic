@@ -5,7 +5,7 @@
         <img id="img" :src="songInfo.pic120 || defaultImg" @click="toLrc" />
         <div class="info">
           <div class="song">
-            <div style="display: flex; align-items: center; width: 100%">
+            <div style="display: flex; align-items: center; width: 70%">
               <div class="song-info">
                 <span id="sname" @click="toLrc">{{ songInfo.name }}</span>
                 <span>&nbsp;-&nbsp;</span>
@@ -59,6 +59,10 @@
         <el-tooltip effect="light" content="收藏" placement="top">
           <i class="iconfont" :class="likeIcon" @click="like"></i>
         </el-tooltip>
+        <el-tooltip effect="light" content="添加至歌单" placement="top">
+          <i class="iconfont icon-add" @click="addLikeSong(songInfo)"></i>
+        </el-tooltip>
+
         <el-tooltip effect="light" content="下载" placement="top">
           <a
             class="iconfont icon-download"
@@ -94,7 +98,11 @@
           ></template>
         </el-popover>
         <el-tooltip effect="light" content="歌词" placement="top">
-          <i class="iconfont icon-open-lyric" style="font-size: 24px"></i>
+          <i
+            class="iconfont icon-open-lyric"
+            style="font-size: 24px"
+            @click="toLrc"
+          ></i>
         </el-tooltip>
         <el-tooltip effect="light" content="音量" placement="top">
           <i class="iconfont icon-sound" @click="click_vol"></i>
@@ -193,7 +201,6 @@ export default {
         this.isInit = true;
       });
     }
-
     this.$bus.on("playMusic", this.replay);
     this.$bus.on("playInit", this.playInit);
     this.$bus.on("addLikeSong", this.addLikeSong);
@@ -313,7 +320,14 @@ export default {
       this.$refs.add.visible = true;
     },
     submit() {
-      this.$refs.add.visible = false;
+      if (this.radio === false) {
+        this.$message({
+          message: "未选择歌单",
+          type: "error",
+        });
+        return;
+      }
+			this.$refs.add.visible = false;
       addLike(this.add_data, this.radio).then((res) => {
         this.$message({
           message: "添加成功",
@@ -549,7 +563,6 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 70%;
 }
 
 #sname {

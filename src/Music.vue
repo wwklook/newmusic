@@ -1,13 +1,12 @@
 <template>
-  <router-view></router-view>
+  <router-view v-slot="{ Component }"
+    ><keep-alive> <component class="view" :is="Component" /> </keep-alive
+  ></router-view>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-
 </style>

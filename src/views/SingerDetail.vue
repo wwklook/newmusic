@@ -3,7 +3,7 @@
     <div class="singer-detail">
       <img class="singer-pic" :src="singer_info.pic300" />
       <div class="singer-info">
-        <div class="singer-name">{{ singer_info.name }}</div>
+        <div class="singer-name" v-html="singer_info.name"></div>
         <div class="singer-data">
           <span>单曲：{{ singer_info.musicNum }}</span>
           <span>专辑：{{ singer_info.albumNum }}</span>
@@ -11,7 +11,7 @@
           <span>粉丝：{{ singer_info.artistFans }}</span>
         </div>
         <div class="singer-other">
-          <span>英文名：{{ singer_info.aartist }}</span>
+          <span v-html="'英文名：' + singer_info.aartist"></span>
           <span>国籍：{{ singer_info.country }}</span>
           <span>语言：{{ singer_info.language }}</span>
           <span>出生地：{{ singer_info.birthplace }}</span>

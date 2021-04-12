@@ -89,7 +89,7 @@ export default createStore({
 			}
 		},
 		addLove(state, data) {
-			state.ilovelist.push(data)
+			state.ilovelist.push({ data })
 			state.iloverid.push(data.rid + "")
 		},
 		addLike(state, list, index) {

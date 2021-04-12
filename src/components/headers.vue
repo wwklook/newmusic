@@ -173,13 +173,26 @@ export default {
       this.$router.push("/music/history");
     },
     logout() {
-      LogOut().then(() => {
-        this.$store.commit("changeLoginState", false);
-        this.$message({
-          message: "已成功登出",
-          type: "success",
+      this.$confirm(`是否退出登录？`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          LogOut().then(() => {
+            this.$store.commit("changeLoginState", false);
+            this.$message({
+              message: "已成功登出",
+              type: "success",
+            });
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作",
+          });
         });
-      });
     },
     changeTheme(index) {
       document
@@ -233,7 +246,7 @@ export default {
 <style lang="scss" scoped>
 .menu {
   max-width: 1400px;
-	min-width: 750px;
+  min-width: 750px;
   margin: 0 auto;
   height: 60px;
   display: flex;

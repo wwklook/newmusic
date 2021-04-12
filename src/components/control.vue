@@ -60,7 +60,7 @@
           <i class="iconfont" :class="likeIcon" @click="like"></i>
         </el-tooltip>
         <el-tooltip effect="light" content="下载" placement="top">
-          <i class="iconfont icon-download"></i>
+          <i @click="download" class="iconfont icon-download"></i>
         </el-tooltip>
         <el-tooltip effect="light" :content="loopName" placement="top">
           <i class="iconfont" :class="loopIcon" @click="loop"></i>
@@ -124,6 +124,7 @@
 import { songinfo } from "@/network/api.js";
 import { addLike, addIlove, delILove } from "@/network/profile.js";
 import simpleItem from "@/components/simpleItem.vue";
+import axios from "axios";
 export default {
   components: {
     simpleItem,
@@ -313,6 +314,21 @@ export default {
         });
       });
     },
+    download() {
+      axios
+        .get("/kwapi/" + this.url.slice(25), { responseType: "blob" })
+        .then((res) => {
+          let url = window.URL.createObjectURL(new Blob([res.data]));
+          let a = document.createElement("a");
+          a.href = url;
+          a.download = this.songInfo.name + ".mp3";
+          a.click();
+          this.$message({
+            message: "下载成功",
+            type: "success",
+          });
+        });
+    },
     lastSong() {
       if (!this.isInit) {
         this.$message({
@@ -498,45 +514,6 @@ export default {
     },
   },
 };
-function animate(obj, json, fn) {
-  clearInterval(obj.timer);
-  obj.timer = setInterval(function () {
-    var flag = true;
-    for (var k in json) {
-      if (k === "opacity") {
-        var leader = getComputedStyle(obj, null)[k] * 100;
-        var tag = json[k] * 100;
-        var step = (tag - leader) / 15;
-        step = step > 0 ? Math.ceil(step) : Math.floor(step);
-        leader += step;
-        obj.style[k] = leader / 100;
-      } else if (k === "scrollTop") {
-        var leader = obj[k];
-        var tag = json[k];
-        var step = (tag - leader) / 15;
-        step = step > 0 ? Math.ceil(step) : Math.floor(step);
-        leader += step;
-        obj[k] = leader;
-      } else {
-        var leader = parseInt(getComputedStyle(obj, null)[k]) || 0;
-        var tag = json[k];
-        var step = (tag - leader) / 15;
-        step = step > 0 ? Math.ceil(step) : Math.floor(step);
-        leader += step;
-        obj.style[k] = leader + "px";
-      }
-      if (leader !== tag) {
-        flag = false;
-      }
-    }
-    if (flag) {
-      clearInterval(obj.timer);
-      if (fn) {
-        fn();
-      }
-    }
-  }, 15);
-}
 </script>
 
 <style lang="scss" scoped>
@@ -592,7 +569,7 @@ function animate(obj, json, fn) {
 }
 
 #time {
-	cursor: auto;
+  cursor: auto;
 }
 
 .info input[type="range"] {

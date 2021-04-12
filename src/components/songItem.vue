@@ -14,7 +14,7 @@
         title="播放MV"
         @click="toMV"
         class="iconfont icon-mv"
-				style="font-size: 20px;margin-left: 5px;"
+        style="font-size: 20px; margin-left: 5px"
       />
     </div>
     <div class="song_name">
@@ -31,12 +31,14 @@
       <i class="iconfont icon-play" @click="play"></i>
       <i class="iconfont icon-add" @click="add"></i>
       <i class="iconfont" :class="likeIcon" @click="like"></i>
-      <i class="iconfont icon-download"></i>
+      <i class="iconfont icon-download" @click="download"></i>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { musicUrl } from "@/network/api";
 import { addIlove, delILove } from "@/network/profile";
 export default {
   props: ["data", "num"],
@@ -55,6 +57,23 @@ export default {
     },
     add() {
       this.$bus.emit("addLikeSong", this.data);
+    },
+    download() {
+      musicUrl(this.data.rid).then((r) => {
+        axios
+          .get("/kwapi/" + r.data.slice(25), { responseType: "blob" })
+          .then((res) => {
+            let url = window.URL.createObjectURL(new Blob([res.data]));
+            let a = document.createElement("a");
+            a.href = url;
+            a.download = this.data.name + ".mp3";
+            a.click();
+            this.$message({
+              message: "下载成功",
+              type: "success",
+            });
+          });
+      });
     },
     toSinger() {
       if (this.$route.name != "SingerDetail") {

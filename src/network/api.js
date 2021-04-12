@@ -151,8 +151,15 @@ export function mvList(pid, pn, rn) {
 
 export function mvUrl(rid) {
   return requests({
-    url: '/artistMusic',
+    url: '/mv_url',
     params: { rid }
+  })
+}
+
+export function musicUrl(rid, br="320kmp3") {
+  return requests({
+    url: '/music_url',
+    params: { rid, br }
   })
 }
 

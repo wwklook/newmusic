@@ -35,6 +35,7 @@ export default {
 
 a {
 	text-decoration: none;
+	color: inherit;
 }
 
 a:hover, a:active, a:focus, a:visited {

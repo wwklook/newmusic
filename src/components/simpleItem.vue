@@ -21,15 +21,17 @@
       <i class="iconfont icon-play" @click="play"></i>
       <i class="iconfont icon-add" @click="add"></i>
       <i class="iconfont" :class="likeIcon" @click="like"></i>
-      <i class="iconfont icon-download" @click="download"></i>
+      <a
+        class="iconfont icon-download"
+        :href="'https://www.wwklook.com/api/music_url?rid=' + data.rid"
+        :download="data.name + '.mp3'"
+      ></a>
       <i class="el-icon-delete" @click="del"></i>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import { musicUrl } from "@/network/api";
 import { addIlove, delILove } from "@/network/profile";
 export default {
   props: ["data", "num"],
@@ -48,23 +50,6 @@ export default {
     },
     add() {
       this.$bus.emit("addLikeSong", this.data);
-    },
-		download() {
-      musicUrl(this.data.rid).then((r) => {
-        axios
-          .get("/kwapi/" + r.data.slice(25), { responseType: "blob" })
-          .then((res) => {
-            let url = window.URL.createObjectURL(new Blob([res.data]));
-            let a = document.createElement("a");
-            a.href = url;
-            a.download = this.data.name + ".mp3";
-            a.click();
-            this.$message({
-              message: "下载成功",
-              type: "success",
-            });
-          });
-      });
     },
     toSinger() {
       if (this.$route.name != "SingerDetail") {

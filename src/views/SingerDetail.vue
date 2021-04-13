@@ -18,7 +18,7 @@
           <span>星座：{{ singer_info.constellation }}</span>
         </div>
         <div class="btn">
-          <div class="play-all" @click="playAll">
+          <div class="play-all" @click="playAll" v-if="name === 'SingerMusic'">
             <i class="iconfont icon-cnt"></i>播放全部
           </div>
           <div class="like" @click="like">
@@ -28,44 +28,27 @@
       </div>
     </div>
     <div class="singer-page">
-      <span :class="{ selected: name === 'SingerDetail' }">单曲</span>
-      <span>专辑</span>
-      <span>MV</span>
-      <span>简介</span>
-    </div>
-    <div class="song-list">
-      <song-header></song-header>
-      <song-item
-        v-for="(item, index) in song_list"
-        :key="item.rid"
-        :data="item"
-        :num="index"
-      ></song-item>
-      <el-pagination
-        style="text-align: center; margin-top: 20px"
-        background
-        layout="prev, pager, next"
-        :total="total"
-        :page-size="rn"
-        :current-page="pn"
-        :hide-on-single-page="true"
-        @current-change="changePage"
+      <span :class="{ selected: name === 'SingerMusic' }" @click="toSingerMusic"
+        >单曲</span
       >
-      </el-pagination>
+      <span :class="{ selected: name === 'SingerAlbum' }" @click="toSingerAlbum"
+        >专辑</span
+      >
+      <span :class="{ selected: name === 'SingerMv' }" @click="toSingerMv"
+        >MV</span
+      >
+      <span :class="{ selected: name === 'SingerInfo' }" @click="toSingerInfo"
+        >简介</span
+      >
     </div>
+    <router-view :singer_info="singer_info"></router-view>
   </div>
 </template>
 
 <script>
-import songItem from "@/components/songItem.vue";
-import songHeader from "@/components/songHeader.vue";
-import { artist, artistMusic } from "@/network/api.js";
+import { artist } from "@/network/api.js";
 import { addSinger, delSinger } from "@/network/profile";
 export default {
-  components: {
-    songItem,
-    songHeader,
-  },
   computed: {
     name() {
       return this.$route.name;
@@ -80,12 +63,11 @@ export default {
   watch: {
     $route: {
       handler(newVal) {
-        if (newVal.name !== "SingerDetail") return;
+        if (newVal.name !== "SingerMusic") return;
         this.aid = newVal.query.aid;
         artist(this.aid).then((res) => {
           this.singer_info = res.data;
         });
-        this.get_artistMusic();
       },
     },
   },
@@ -93,10 +75,6 @@ export default {
     return {
       singer_info: [],
       aid: "",
-      pn: 1,
-      rn: 20,
-      song_list: [],
-      total: 0,
     };
   },
   created() {
@@ -104,22 +82,22 @@ export default {
     artist(this.aid).then((res) => {
       this.singer_info = res.data;
     });
-    this.get_artistMusic();
   },
   methods: {
-    changePage(pn) {
-      this.pn = pn;
-      this.get_artistMusic();
+    toSingerMusic() {
+      this.$router.push({ name: "SingerMusic", query: { aid: this.aid } });
     },
-    get_artistMusic() {
-      artistMusic(this.aid, this.pn, this.rn).then((res) => {
-        this.song_list = res.data.list;
-        this.total = parseInt(res.data.total);
-      });
+    toSingerAlbum() {
+      this.$router.push({ name: "SingerAlbum", query: { aid: this.aid } });
+    },
+    toSingerMv() {
+      this.$router.push({ name: "SingerMv", query: { aid: this.aid } });
+    },
+    toSingerInfo() {
+      this.$router.push({ name: "SingerInfo", query: { aid: this.aid } });
     },
     playAll() {
-      this.$store.commit("changePlaylist", this.song_list);
-      this.$bus.emit("playMusic");
+      this.$bus.emit("playAllSingerMusic");
     },
     like() {
       if (this.islike) {

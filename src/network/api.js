@@ -149,9 +149,9 @@ export function mvList(pid, pn, rn) {
   })
 }
 
-export function mvUrl(rid) {
+export function mvInfo(rid) {
   return requests({
-    url: '/mv_url',
+    url: '/mv_info',
     params: { rid }
   })
 }

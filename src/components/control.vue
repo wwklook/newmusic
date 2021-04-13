@@ -526,7 +526,7 @@ export default {
 .tool {
   width: 100%;
   height: 60px;
-  background: #eee;
+  background: #fff;
   box-shadow: 0 0 1px 0px #000;
   position: fixed;
   bottom: 0;

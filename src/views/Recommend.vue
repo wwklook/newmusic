@@ -73,7 +73,7 @@
         >
         <span @click="toSingers">更多<i class="iconfont icon-right"></i></span>
       </div>
-      <div class="artist-list">
+      <div class="artist-list" ref="artist">
         <singer-item v-for="item in artist_list" :key="item.id" :data="item" />
       </div>
     </div>
@@ -121,7 +121,7 @@ export default {
       this.banner_list = res.data.banner;
       setTimeout(() => {
         this.$refs.banner.setActiveItem(0);
-				loadbanner.close()
+        loadbanner.close();
       }, 0);
     });
     this.getRecommend();
@@ -143,17 +143,25 @@ export default {
     rcmClicked(id, index) {
       if (this.rcm_index === index) return;
       this.rcm_index = index;
-      this.loadrcm = true;
+      const loadrcm = this.$loading({
+        target: this.$refs.rcm,
+        text: "加载中",
+      });
       tagPlayList(id, 1, 5).then((res) => {
         this.rcm_playlist = res.data.data;
-        this.loadrcm = false;
+        loadrcm.close();
       });
     },
     artistClicked(id, index) {
       if (this.artist_index === index) return;
+      const loadartist = this.$loading({
+        target: this.$refs.artist,
+        text: "加载中",
+      });
       this.artist_index = index;
       artistInfo(id, 1, 6).then((res) => {
         this.artist_list = res.data.artistList;
+        loadartist.close();
       });
     },
     play(data) {
@@ -188,7 +196,7 @@ export default {
 <style lang="scss" scoped>
 .recommend {
   max-width: 1400px;
-	min-width: 1400px;
+  min-width: 1400px;
   margin: 0 auto;
 }
 .rcm {
@@ -255,6 +263,7 @@ export default {
   &-list {
     display: flex;
     justify-content: space-evenly;
+    height: 285px;
   }
 }
 </style>

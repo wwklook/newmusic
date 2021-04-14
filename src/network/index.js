@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export function requests(config) {
   const instance = axios.create({
-    baseURL: "https://wwklook.com/api/",
+    baseURL: "https://www.wwklook.com/api/",
     timeout: 600000
   })
   // instance.defaults.xsrfCookieName = 'csrftoken';

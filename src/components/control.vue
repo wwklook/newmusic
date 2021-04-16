@@ -419,7 +419,7 @@ export default {
       }
     },
     start: function () {
-      this.time = "00:00/" + this.songInfo.songTimeMinutes;
+      this.time = "00:00/" + (this.songInfo.songTimeMinutes || "00:00") ;
       this.progress = 0;
     },
     metadata: function () {

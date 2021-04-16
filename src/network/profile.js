@@ -4,14 +4,14 @@ import { requests } from './index'
 // 获取用户信息
 export function getUserInfo() {
 	return requests({
-		url: '/music_userinfo',
+		url: '/api/music_userinfo',
 	})
 }
 
 // 登出
 export function LogOut() {
 	return requests({
-		url: '/logout',
+		url: '/api/logout',
 	})
 }
 
@@ -20,13 +20,13 @@ export function LogOut() {
 // 自定义收藏分组
 export function getLikeGroup() {
 	return requests({
-		url: '/like_group',
+		url: '/api/like_group',
 	})
 }
 
 export function addLikeGroup(name) {
 	return requests({
-		url: '/like_group',
+		url: '/api/like_group',
 		data: JSON.stringify({ name }),
 		method: 'post',
 		headers: { 'Content-Type': 'application/json' },
@@ -35,7 +35,7 @@ export function addLikeGroup(name) {
 
 export function delLikeGroup(group_id) {
 	return requests({
-		url: '/like_group',
+		url: '/api/like_group',
 		method: 'delete',
 		params: { group_id },
 	})
@@ -43,14 +43,14 @@ export function delLikeGroup(group_id) {
 
 export function getLike(group_id) {
 	return requests({
-		url: '/like_song',
+		url: '/api/like_song',
 		params: { group_id },
 	})
 }
 
 export function addLike(data, group_id) {
 	return requests({
-		url: '/like_song',
+		url: '/api/like_song',
 		data: JSON.stringify({ data, group_id }),
 		method: 'post',
 		headers: { 'Content-Type': 'application/json' },
@@ -59,7 +59,7 @@ export function addLike(data, group_id) {
 
 export function delLike(rid, group_id) {
 	return requests({
-		url: '/like_song',
+		url: '/api/like_song',
 		method: 'delete',
 		params: { rid, group_id },
 	})
@@ -69,13 +69,13 @@ export function delLike(rid, group_id) {
 // 我喜欢
 export function getIlove() {
 	return requests({
-		url: '/ilove',
+		url: '/api/ilove',
 	})
 }
 
 export function addIlove(data) {
 	return requests({
-		url: '/ilove',
+		url: '/api/ilove',
 		data: JSON.stringify({ data }),
 		method: 'post',
 		headers: { 'Content-Type': 'application/json' },
@@ -84,7 +84,7 @@ export function addIlove(data) {
 
 export function delILove(rid) {
 	return requests({
-		url: '/ilove',
+		url: '/api/ilove',
 		method: 'delete',
 		params: { rid },
 	})
@@ -94,13 +94,13 @@ export function delILove(rid) {
 
 export function getRcm() {
 	return requests({
-		url: '/like_rcm',
+		url: '/api/like_rcm',
 	})
 }
 
 export function addRcm(data) {
 	return requests({
-		url: '/like_rcm',
+		url: '/api/like_rcm',
 		data: JSON.stringify({ data }),
 		method: 'post',
 		headers: { 'Content-Type': 'application/json' },
@@ -109,7 +109,7 @@ export function addRcm(data) {
 
 export function delRcm(pid) {
 	return requests({
-		url: '/like_rcm',
+		url: '/api/like_rcm',
 		method: 'delete',
 		params: { pid },
 	})
@@ -119,13 +119,13 @@ export function delRcm(pid) {
 // 收藏歌手
 export function getSinger() {
 	return requests({
-		url: '/like_singer',
+		url: '/api/like_singer',
 	})
 }
 
 export function addSinger(data) {
 	return requests({
-		url: '/like_singer',
+		url: '/api/like_singer',
 		data: JSON.stringify({ data }),
 		method: 'post',
 		headers: { 'Content-Type': 'application/json' },
@@ -134,7 +134,7 @@ export function addSinger(data) {
 
 export function delSinger(aid) {
 	return requests({
-		url: '/like_singer',
+		url: '/api/like_singer',
 		method: 'delete',
 		params: { aid },
 	})
@@ -144,13 +144,13 @@ export function delSinger(aid) {
 // 收藏专辑
 export function getAlbum() {
 	return requests({
-		url: '/like_album',
+		url: '/api/like_album',
 	})
 }
 
 export function addAlbum(data) {
 	return requests({
-		url: '/like_album',
+		url: '/api/like_album',
 		data: JSON.stringify({ data }),
 		method: 'post',
 		headers: { 'Content-Type': 'application/json' },
@@ -159,7 +159,7 @@ export function addAlbum(data) {
 
 export function delAlbum(aid) {
 	return requests({
-		url: '/like_album',
+		url: '/api/like_album',
 		method: 'delete',
 		params: { aid },
 	})

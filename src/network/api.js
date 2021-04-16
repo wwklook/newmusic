@@ -3,27 +3,27 @@ import { requests } from './index'
 
 export function tagList() {
   return requests({
-    url: '/tagList'
+    url: '/api/tagList'
   })
 }
 
 export function tagPlayList(pid, pn, rn) {
   return requests({
-    url: '/tagPlayList',
+    url: '/api/tagPlayList',
     params: { pid, pn, rn }
   })
 }
 
 export function playListInfo(pid, pn, rn) {
   return requests({
-    url: '/playListInfo',
+    url: '/api/playListInfo',
     params: { pid, pn, rn }
   })
 }
 
 export function recommendPlayList(pn, rn) {
   return requests({
-    url: '/recommendPlayList',
+    url: '/api/recommendPlayList',
     params: { pn, rn }
   })
 }
@@ -31,13 +31,13 @@ export function recommendPlayList(pn, rn) {
 
 export function artistTags() {
   return requests({
-    url: '/artistTags'
+    url: '/api/artistTags'
   })
 }
 
 export function artistInfo(cid, pn, rn) {
   return requests({
-    url: '/artistInfo',
+    url: '/api/artistInfo',
     params: { cid, pn, rn }
   })
 }
@@ -45,56 +45,56 @@ export function artistInfo(cid, pn, rn) {
 
 export function rankMenu() {
   return requests({
-    url: '/rankMenu'
+    url: '/api/rankMenu'
   })
 }
 
 
 export function rankList(bid, pn, rn) {
   return requests({
-    url: '/rankList',
+    url: '/api/rankList',
     params: { bid, pn, rn }
   })
 }
 
 export function artist(aid) {
   return requests({
-    url: '/artist',
+    url: '/api/artist',
     params: { aid }
   })
 }
 
 export function artistMusic(aid, pn, rn) {
   return requests({
-    url: '/artistMusic',
+    url: '/api/artistMusic',
     params: { aid, pn, rn }
   })
 }
 
 export function artistAlbum(aid, pn, rn) {
   return requests({
-    url: '/artistAlbum',
+    url: '/api/artistAlbum',
     params: { aid, pn, rn }
   })
 }
 
 export function artistMv(aid, pn, rn) {
   return requests({
-    url: '/artistMv',
+    url: '/api/artistMv',
     params: { aid, pn, rn }
   })
 }
 
 export function albumInfo(aid, pn, rn) {
   return requests({
-    url: '/albumInfo',
+    url: '/api/albumInfo',
     params: { aid, pn, rn }
   })
 }
 
 export function searchKey(keyword) {
   return requests({
-    url: '/searchKey',
+    url: '/api/searchKey',
     params: { keyword }
   })
 }
@@ -102,35 +102,35 @@ export function searchKey(keyword) {
 
 export function searchMusic(keyword, pn, rn) {
   return requests({
-    url: '/searchMusic',
+    url: '/api/searchMusic',
     params: { keyword, pn, rn }
   })
 }
 
 export function searchAlbum(keyword, pn, rn) {
   return requests({
-    url: '/searchAlbum',
+    url: '/api/searchAlbum',
     params: { keyword, pn, rn }
   })
 }
 
 export function searchMv(keyword, pn, rn) {
   return requests({
-    url: '/searchMv',
+    url: '/api/searchMv',
     params: { keyword, pn, rn }
   })
 }
 
 export function searchRcm(keyword, pn, rn) {
   return requests({
-    url: '/searchRcm',
+    url: '/api/searchRcm',
     params: { keyword, pn, rn }
   })
 }
 
 export function searchSinger(keyword, pn, rn) {
   return requests({
-    url: '/searchSinger',
+    url: '/api/searchSinger',
     params: { keyword, pn, rn }
   })
 }
@@ -138,40 +138,40 @@ export function searchSinger(keyword, pn, rn) {
 
 export function tagMV() {
   return requests({
-    url: '/tagMV'
+    url: '/api/tagMV'
   })
 }
 
 export function mvList(pid, pn, rn) {
   return requests({
-    url: '/mvList',
+    url: '/api/mvList',
     params: { pid, pn, rn }
   })
 }
 
 export function mvInfo(rid) {
   return requests({
-    url: '/mv_info',
+    url: '/api/mv_info',
     params: { rid }
   })
 }
 
 export function musicUrl(rid, br="320kmp3") {
   return requests({
-    url: '/music_url',
+    url: '/api/music_url',
     params: { rid, br }
   })
 }
 
 export function songinfo(rid, br="320kmp3") {
   return requests({
-    url: '/songinfo',
+    url: '/api/songinfo',
     params: { rid, br }
   })
 }
 
 export function indexInfo() {
   return requests({
-    url: '/indexInfo'
+    url: '/api/indexInfo'
   })
 }

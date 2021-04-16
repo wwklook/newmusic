@@ -46,6 +46,18 @@ module.exports = {
 				.end()
 		})
 	},
+	devServer: {
+		proxy: {
+			'/api': {
+				target: "https://www.wwklook.com",
+				secure: true,
+				changeOrigin: true,
+				pathRewrite: {
+					'^/api': '/api'
+				}
+			}
+		}
+	},
 	configureWebpack: config => {
 		// 用cdn方式引入，则构建时要忽略相关资源
 		if (isProduction || devNeedCdn) config.externals = cdn.externals;

@@ -65,6 +65,7 @@
 
         <el-tooltip effect="light" content="下载" placement="top">
           <a
+            v-if="isInit"
             class="iconfont icon-download"
             :href="
               'https://www.wwklook.com/api/music_url?rid=' +
@@ -73,6 +74,7 @@
               songInfo.name
             "
           ></a>
+          <i v-else class="iconfont icon-download" @click="like"></i>
         </el-tooltip>
         <el-tooltip effect="light" :content="loopName" placement="top">
           <i class="iconfont" :class="loopIcon" @click="loop"></i>
@@ -316,6 +318,13 @@ export default {
       this.isInit = false;
     },
     addLikeSong(data) {
+      if (!this.isInit) {
+        this.$message({
+          message: "请先播放一首歌曲！",
+          type: "success",
+        });
+        return;
+      }
       this.add_data = data;
       this.$refs.add.visible = true;
     },
@@ -327,7 +336,7 @@ export default {
         });
         return;
       }
-			this.$refs.add.visible = false;
+      this.$refs.add.visible = false;
       addLike(this.add_data, this.radio).then((res) => {
         this.$message({
           message: "添加成功",
@@ -419,7 +428,7 @@ export default {
       }
     },
     start: function () {
-      this.time = "00:00/" + (this.songInfo.songTimeMinutes || "00:00") ;
+      this.time = "00:00/" + (this.songInfo.songTimeMinutes || "00:00");
       this.progress = 0;
     },
     metadata: function () {

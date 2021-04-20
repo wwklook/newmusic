@@ -54,8 +54,7 @@ export default {
   },
   created() {
     this.keyword = this.$route.query.keyword;
-    this.history_keyword =
-      JSON.parse(localStorage.getItem("history_keyword")) || [];
+    JSON.parse(localStorage.getItem("history_keyword")) || [];
   },
   methods: {
     querySearch(queryString, cb) {
@@ -136,8 +135,8 @@ export default {
 
 <style scoped lang="scss">
 .search {
-	max-width: 1400px;
-	margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .search-head {
   width: 100%;

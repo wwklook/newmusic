@@ -1,6 +1,6 @@
 <template>
   <div>
-		<h1>收藏的歌单</h1>
+		<h1>收藏的专辑</h1>
     <div class="album-list">
       <album-item v-for="item in album_list" :key="item.data.albumid" :data="item.data" />
     </div>

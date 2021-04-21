@@ -1,6 +1,6 @@
 <template>
   <div class="artist">
-    <h1>收藏的歌单</h1>
+    <h1>收藏的歌手</h1>
     <div class="artist-list">
       <singer-item
         v-for="item in artist_list"

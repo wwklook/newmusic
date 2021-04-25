@@ -42,7 +42,6 @@ export default {
   created() {
     this.aid = this.$route.query.aid;
     this.get_artistMusic();
-
     this.$bus.all.delete("playAllSingerMusic");
     this.$bus.on("playAllSingerMusic", () => {
       this.$store.commit("changePlaylist", this.song_list);

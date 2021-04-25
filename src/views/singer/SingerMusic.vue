@@ -42,11 +42,10 @@ export default {
   created() {
     this.aid = this.$route.query.aid;
     this.get_artistMusic();
-
-    this.$bus.all.delete("playAllSingerMusic");
-    this.$bus.on("playAllSingerMusic", () => {
-      this.$store.commit("changePlaylist", this.song_list);
-      this.$bus.emit("playMusic");
+		let _this = this
+    this.$bus.on("playAllSingerMusic", function () {
+      _this.$store.commit("changePlaylist", _this.song_list);
+      _this.$bus.emit("playMusic");
     });
   },
   methods: {

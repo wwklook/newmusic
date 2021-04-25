@@ -109,7 +109,7 @@
         <el-tooltip effect="light" content="音量" placement="top">
           <i class="iconfont icon-sound" @click="click_vol"></i>
         </el-tooltip>
-        <el-slider v-model="volume" @input="input_vol"></el-slider>
+        <el-slider v-model="volume" @change="input_vol" @input="input_vol"></el-slider>
       </div>
     </div>
     <audio
@@ -470,13 +470,14 @@ export default {
       if (this.$refs.audio.muted) {
         this.$refs.audio.muted = false;
         this.volume = 80;
+				this.$refs.audio.volume = this.volume / 100;
       } else {
         this.volume = 0;
         this.$refs.audio.muted = true;
       }
     },
     input_vol() {
-      this.$refs.audio.volume = this.volume;
+      this.$refs.audio.volume = this.volume / 100;
       if (this.volume === 0) {
         this.$refs.audio.muted = true;
       } else {

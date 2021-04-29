@@ -59,7 +59,7 @@
             <div class="profile-item">
               <span
                 ><a
-                  href="https://wwklook.com/login.html"
+                  :href="'https://wwklook.com/login.html?backUrl=' + href"
                   target="_blank"
                   rel="noopener noreferrer"
                   >登录</a
@@ -143,6 +143,9 @@ export default {
     islogin() {
       return this.$store.state.isLogin;
     },
+		href() {
+			return location.origin + this.$route.fullPath
+		}
   },
   methods: {
     toIndex() {

@@ -7,34 +7,38 @@
         backgroundSize: 'cover',
       }"
     ></div>
-    <img class="cover-img" :src="songInfo.pic || defaultImg" />
-    <div class="detail">
-      <div class="cover-song">{{ songInfo.name }}</div>
-      <div>
-        歌手 :
-        <span class="cover-name" @click="toSinger">{{ songInfo.artist }}</span>
-        专辑 :
-        <span class="cover-album" @click="toAlbum">{{ songInfo.album }}</span>
-      </div>
-      <div class="lrc" ref="lrc">
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p
-          v-for="(item, index) in lrclist"
-          :key="index"
-          :class="{ current: lrcIndex == index }"
-        >
-          {{ item.lineLyric }}
-        </p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
+    <div class="cover-cover">
+      <img class="cover-img" :src="songInfo.pic || defaultImg" />
+      <div class="detail">
+        <div class="cover-song">{{ songInfo.name }}</div>
+        <div>
+          歌手 :
+          <span class="cover-name" @click="toSinger">{{
+            songInfo.artist
+          }}</span>
+          专辑 :
+          <span class="cover-album" @click="toAlbum">{{ songInfo.album }}</span>
+        </div>
+        <div class="lrc" ref="lrc">
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+          <p
+            v-for="(item, index) in lrclist"
+            :key="index"
+            :class="{ current: lrcIndex == index }"
+          >
+            {{ item.lineLyric }}
+          </p>
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+        </div>
       </div>
     </div>
   </div>
@@ -128,15 +132,13 @@ function animate(obj, json, fn) {
 <style lang="scss" scoped>
 .cover {
   width: 100%;
-  background-color: #8a8a8a;
   opacity: 0.9;
-  display: flex;
-  justify-content: space-evenly;
   position: absolute;
   top: 60px;
   bottom: 60px;
   overflow: hidden;
 }
+
 .cover-img {
   width: 400px;
   height: 400px;
@@ -152,12 +154,21 @@ function animate(obj, json, fn) {
   position: absolute;
 }
 
+.cover-cover {
+	width: 100%;
+	height: 100%;
+	background-color: #00000040;
+	display: flex;
+  justify-content: space-evenly;
+}
+
 .detail {
   width: 50%;
   height: 100%;
   color: #f3f3f3;
   text-align: center;
 }
+
 .cover-song {
   font-size: 30px;
   margin-top: 50px;

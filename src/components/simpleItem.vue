@@ -11,10 +11,10 @@
         class="iconfont icon-mv"
         style="font-size: 20px; margin-left: 5px"
       />
-      <span @click="play">{{ data.name }}</span>
+      <span @click="play" v-html="data.name "></span>
     </div>
     <div class="song_singer">
-      <span @click="toSinger">{{ data.artist }}</span>
+      <span @click="toSinger" v-html="data.artist"></span>
     </div>
     <div class="song_time">{{ data.songTimeMinutes }}</div>
     <div class="ctrl">

@@ -19,7 +19,7 @@
         </div>
 
         <div class="btn">
-          <div class="play-all"><i class="iconfont icon-cnt"></i>播放全部</div>
+          <div class="play-all" @click="playAll"><i class="iconfont icon-cnt"></i>播放全部</div>
           <div class="like" @click="like">
             <i class="iconfont" :class="likeIcon"></i>收藏
           </div>
@@ -91,6 +91,10 @@ export default {
         this.album_info = res.data;
         this.total = res.data.total;
       });
+    },
+		playAll() {
+      this.$store.commit("changePlaylist", this.album_info.musicList);
+      this.$bus.emit("playMusic");
     },
     like() {
       if (this.islike) {

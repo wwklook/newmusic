@@ -14,6 +14,8 @@ const Album = () => import('@/views/Album.vue')
 const History = () => import('@/views/History.vue')
 const Proflie = () => import('@/views/Profile.vue')
 const Lrc = () => import('@/views/Lrc.vue')
+const Login = () => import('@/views/Login.vue')
+const Register = () => import('@/views/Register.vue')
 
 
 const Search = () => import('@/views/Search.vue')
@@ -38,12 +40,18 @@ const LikeSinger = () => import('@/views/profile/LikeSinger.vue')
 const LikeAlbum = () => import('@/views/profile/LikeAlbum.vue')
 
 
-
-
 const routes = [
 	{
 		path: '',
 		redirect: '/music'
+	}, {
+		path: '/login',
+		name: 'Login',
+		component: Login,
+	}, {
+		path: '/register',
+		name: 'Register',
+		component: Register,
 	}, {
 		path: '/music',
 		name: 'Music',

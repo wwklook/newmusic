@@ -95,6 +95,11 @@ export default {
       return this.$store.state.isLogin;
     },
   },
+  activated() {
+    if (!this.isLogin) {
+      this.$router.push("/music/login",query);
+    }
+  },
   methods: {
     toLike(index) {
       this.group_index = index;

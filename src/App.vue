@@ -1,28 +1,12 @@
 <template>
-  <div>
-    <el-container>
-      <el-header>
-        <headers></headers>
-      </el-header>
-      <el-main>
-        <router-view v-slot="{ Component }"
-          ><keep-alive>
-            <component class="view" :is="Component" /> </keep-alive
-        ></router-view>
-      </el-main>
-      <el-footer>
-        <control></control>
-      </el-footer>
-    </el-container>
-  </div>
+  <router-view v-slot="{ Component }"
+    ><keep-alive> <component class="view" :is="Component" /> </keep-alive
+  ></router-view>
 </template>
 
 <script>
-import Headers from "@/components/headers";
-import Control from "@/components/control";
 export default {
   name: "App",
-  components: { Headers, Control },
 };
 </script>
 
@@ -33,13 +17,22 @@ export default {
   padding: 0;
 }
 
-a {
-	text-decoration: none;
-	color: inherit;
+html,
+body,
+#app {
+  height: 100%;
 }
 
-a:hover, a:active, a:focus, a:visited {
-	color: inherit;
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover,
+a:active,
+a:focus,
+a:visited {
+  color: inherit;
 }
 
 h1 {
@@ -80,13 +73,13 @@ span {
 }
 
 .playall {
-	margin-left: 20px;
+  margin-left: 20px;
   font-size: 18px;
   color: #fff;
   background-color: #aaa;
   padding: 5px 20px;
   border-radius: 20px;
-	cursor: pointer;
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar {
@@ -134,6 +127,6 @@ span {
 }
 
 .el-main {
-	padding: 0 !important;
+  padding: 0 !important;
 }
 </style>

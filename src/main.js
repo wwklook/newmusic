@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import mitt from "mitt";
 import installElementPlus from "./plugins/element";
-import Cookies from "js-cookie";
 import { getUserInfo, getCSRFtoken } from "@/network/profile.js";
 
 const app = createApp(App);

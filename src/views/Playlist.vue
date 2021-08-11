@@ -24,7 +24,7 @@
       </el-aside>
       <el-main class="content">
         <div class="rcm">
-					<playlist-item v-for="item in playlist" :key="item.id" :data="item"/>
+          <playlist-item v-for="item in playlist" :key="item.id" :data="item" />
           <el-pagination
             style="text-align: center; margin-top: 20px"
             background
@@ -81,11 +81,15 @@ export default {
       const loading = this.$loading({
         text: "加载中",
       });
-      tagPlayList(this.tag_id, this.pn, this.rn).then((res) => {
-        this.playlist = res.data.data;
-        this.total = res.data.total;
-        loading.close();
-      });
+      tagPlayList(this.tag_id, this.pn, this.rn)
+        .then((res) => {
+          this.playlist = res.data.data;
+          this.total = res.data.total;
+          loading.close();
+        })
+        .catch(() => {
+          loading.close();
+        });
     },
   },
 };
@@ -93,11 +97,11 @@ export default {
 
 <style lang="scss" scoped>
 .playlist {
-	max-width: 1400px;
-	margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .content {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 .active {
   background-color: #66ccff;
@@ -114,4 +118,3 @@ export default {
   flex-wrap: wrap;
 }
 </style>
-

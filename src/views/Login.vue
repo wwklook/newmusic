@@ -48,8 +48,10 @@
         >登录</el-button
       >
       <div class="remember">
-        <span>忘记密码？</span>
-        <span>注册</span>
+        <!-- <span>忘记密码？</span> -->
+        <span>
+          <router-link :to="'/music/register?redirect=' + redirect">注册</router-link>
+        </span>
       </div>
     </el-form>
   </div>
@@ -122,18 +124,18 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-          this.loginForm.csrfmiddlewaretoken = this.$store.state.CSRFToken;
           this.$store
             .dispatch("login", this.loginForm)
-            .then(() => {
-              this.$router.replace({ path: this.redirect || "/music" });
+            .then((res) => {
+              this.$message.success(res.data.message);
               this.loading = false;
+              this.$router.replace({ path: this.redirect || "/music" });
             })
-            .catch(() => {
+            .catch((err) => {
+              this.$message.error(err);
               this.loading = false;
             });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
@@ -143,12 +145,6 @@ export default {
 </script>
 
 <style lang="scss">
-@supports (-webkit-mask: none) and (not (cater-color: #333)) {
-  .login-container .el-input input {
-    color: #fff;
-  }
-}
-
 .login-container {
   .el-input {
     display: inline-block;
@@ -169,6 +165,11 @@ export default {
         -webkit-text-fill-color: #333 !important;
       }
     }
+  }
+
+  .el-form-item__content {
+    display: flex;
+    align-items: center;
   }
 
   .el-form-item {
@@ -218,14 +219,16 @@ export default {
   }
 
   .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
     font-size: 16px;
-    color: #333;
+    color: #fff;
     cursor: pointer;
     user-select: none;
+    margin-right: 10px;
   }
+}
+
+.svg-container {
+  margin: 0 10px;
 }
 
 .remember {

@@ -44,11 +44,15 @@ export default {
       const loading = this.$loading({
         text: "加载中",
       });
-      searchRcm(this.keyword, this.pn, this.rn).then((res) => {
-        this.playlist = res.data.rcmlist;
-        this.total = parseInt(res.data.total);
-        loading.close();
-      });
+      searchRcm(this.keyword, this.pn, this.rn)
+        .then((res) => {
+          this.playlist = res.data.rcmlist;
+          this.total = parseInt(res.data.total);
+          loading.close();
+        })
+        .catch(() => {
+          loading.close();
+        });
     },
   },
 };

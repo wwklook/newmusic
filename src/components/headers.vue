@@ -57,24 +57,12 @@
           </div>
           <div class="profile-list" v-else>
             <div class="profile-item">
-              <span
-                ><a
-                  :href="'https://wwklook.com/login.html?backUrl=' + href"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >登录</a
-                ></span
+              <router-link :to="'/music/login?redirect=' + href"
+                >登录</router-link
               >
             </div>
             <div class="profile-item">
-              <span
-                ><a
-                  href="https://wwklook.com/register.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >注册</a
-                ></span
-              >
+              <router-link :to="'/music/register?redirect=' + href">注册</router-link>
             </div>
           </div>
           <template #reference
@@ -99,10 +87,10 @@
     </div>
   </div>
 </template>
-        
+
 <script>
 import { searchKey } from "@/network/api";
-import { LogOut } from "@/network/profile";
+import { logout } from "@/network/profile";
 export default {
   data() {
     return {
@@ -143,9 +131,9 @@ export default {
     islogin() {
       return this.$store.state.isLogin;
     },
-		href() {
-			return location.origin + this.$route.fullPath
-		}
+    href() {
+      return this.$route.fullPath;
+    },
   },
   methods: {
     toIndex() {
@@ -182,7 +170,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          LogOut().then(() => {
+          logout().then(() => {
             this.$store.commit("changeLoginState", false);
             this.$message({
               message: "已成功登出",
@@ -245,7 +233,7 @@ export default {
   },
 };
 </script>
-        
+
 <style lang="scss" scoped>
 .menu {
   max-width: 1400px;

@@ -95,6 +95,13 @@ export default {
       this.$bus.emit("playMusic");
     },
     like() {
+      if (!this.$store.state.isLogin) {
+        this.$message({
+          message: "请先登录！",
+          type: "warning",
+        });
+        return;
+      }
       if (this.islike) {
         this.$confirm(
           `是否将《${this.playlist_info.name}》从“收藏的歌单”中移除？`,

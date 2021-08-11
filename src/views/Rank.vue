@@ -91,16 +91,20 @@ export default {
       const loading = this.$loading({
         text: "加载中",
       });
-      rankList(this.rid, this.pn, this.rn).then((res) => {
-        this.rank_list = res.data.musicList;
-        this.total = parseInt(res.data.num);
-        loading.close();
-      });
+      rankList(this.rid, this.pn, this.rn)
+        .then((res) => {
+          this.rank_list = res.data.musicList;
+          this.total = parseInt(res.data.num);
+          loading.close();
+        })
+        .catch(() => {
+          loading.close();
+        });
     },
-		playAll() {
-			this.$store.commit("changePlaylist", this.rank_list)
-			this.$bus.emit("playMusic");
-		}
+    playAll() {
+      this.$store.commit("changePlaylist", this.rank_list);
+      this.$bus.emit("playMusic");
+    },
   },
 };
 </script>
@@ -112,14 +116,14 @@ export default {
 
 .rank {
   display: flex;
-	max-width: 1400px;
-	margin: 20px auto;
+  max-width: 1400px;
+  margin: 20px auto;
 }
 
 .song {
   &-list {
     flex: 1;
-		margin-left: 20px;
+    margin-left: 20px;
   }
   &-item {
     padding: 5px 10px;

@@ -100,6 +100,13 @@ export default {
       this.$bus.emit("playAllSingerMusic");
     },
     like() {
+      if (!this.$store.state.isLogin) {
+        this.$message({
+          message: "请先登录！",
+          type: "warning",
+        });
+        return;
+      }
       if (this.islike) {
         this.$confirm(
           `是否将《${this.singer_info.name}》从“收藏的歌手”中移除？`,

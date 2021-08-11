@@ -46,11 +46,15 @@ export default {
       const loading = this.$loading({
         text: "加载中",
       });
-      searchSinger(this.keyword, this.pn, this.rn).then((res) => {
-        this.artist_list = res.data.artistList;
-        this.total = parseInt(res.data.total);
-        loading.close();
-      });
+      searchSinger(this.keyword, this.pn, this.rn)
+        .then((res) => {
+          this.artist_list = res.data.artistList;
+          this.total = parseInt(res.data.total);
+          loading.close();
+        })
+        .catch(() => {
+          loading.close();
+        });
     },
   },
 };
@@ -61,7 +65,7 @@ export default {
   &-list {
     display: flex;
     flex-wrap: wrap;
-		justify-content: space-evenly;
+    justify-content: space-evenly;
   }
 }
 </style>

@@ -114,16 +114,20 @@ export default {
       target: this.$refs.banner,
       text: "加载中",
     });
-    indexInfo().then((res) => {
-      this.rcm_tags = res.data.playlist_tag;
-      this.rank_list = res.data.rank_list;
-      this.artist_tags = res.data.artist_tag;
-      this.banner_list = res.data.banner;
-      setTimeout(() => {
-        this.$refs.banner.setActiveItem(0);
+    indexInfo()
+      .then((res) => {
+        this.rcm_tags = res.data.playlist_tag;
+        this.rank_list = res.data.rank_list;
+        this.artist_tags = res.data.artist_tag;
+        this.banner_list = res.data.banner;
+        setTimeout(() => {
+          this.$refs.banner.setActiveItem(0);
+          loadbanner.close();
+        }, 0);
+      })
+      .catch(() => {
         loadbanner.close();
-      }, 0);
-    });
+      });
     this.getRecommend();
     this.artistClicked(11, 0);
   },
@@ -135,10 +139,14 @@ export default {
         target: this.$refs.rcm,
         text: "加载中",
       });
-      recommendPlayList(1, 5).then((res) => {
-        this.rcm_playlist = res.data.data.slice(0, 5);
-        loadrcm.close();
-      });
+      recommendPlayList(1, 5)
+        .then((res) => {
+          this.rcm_playlist = res.data.data.slice(0, 5);
+          loadrcm.close();
+        })
+        .catch(() => {
+          loadrcm.close();
+        });
     },
     rcmClicked(id, index) {
       if (this.rcm_index === index) return;
@@ -147,10 +155,14 @@ export default {
         target: this.$refs.rcm,
         text: "加载中",
       });
-      tagPlayList(id, 1, 5).then((res) => {
-        this.rcm_playlist = res.data.data;
-        loadrcm.close();
-      });
+      tagPlayList(id, 1, 5)
+        .then((res) => {
+          this.rcm_playlist = res.data.data;
+          loadrcm.close();
+        })
+        .catch(() => {
+          loadrcm.close();
+        });
     },
     artistClicked(id, index) {
       if (this.artist_index === index) return;
@@ -159,10 +171,14 @@ export default {
         text: "加载中",
       });
       this.artist_index = index;
-      artistInfo(id, 1, 6).then((res) => {
-        this.artist_list = res.data.artistList;
-        loadartist.close();
-      });
+      artistInfo(id, 1, 6)
+        .then((res) => {
+          this.artist_list = res.data.artistList;
+          loadartist.close();
+        })
+        .catch(() => {
+          loadartist.close();
+        });
     },
     play(data) {
       this.$store.commit("addPlaylist", data);

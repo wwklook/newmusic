@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { login, logout } from "@/network/profile";
+import { getUserInfo, login, logout } from "@/network/profile";
 
 export default createStore({
   state: {
@@ -161,12 +161,19 @@ export default createStore({
   },
   actions: {
     login({ commit }, userInfo) {
-      const { username, password, csrfmiddlewaretoken } = userInfo;
+      const { username, password } = userInfo;
       return new Promise((resolve, reject) => {
-        login({ username: username.trim(), password, csrfmiddlewaretoken })
-          .then(() => {
-            commit("changeLoginState", true);
-            resolve();
+        login({ username: username.trim(), password })
+          .then((res) => {
+            if (res.data.succeed) {
+              getUserInfo().then((res) => {
+                store.commit("Init", res.data);
+                resolve(res);
+              });
+            } else {
+              reject(res.data.message);
+            }
+            resolve(res);
           })
           .catch((error) => {
             reject(error);

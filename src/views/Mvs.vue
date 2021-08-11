@@ -69,11 +69,15 @@ export default {
       const loading = this.$loading({
         text: "加载中",
       });
-      mvList(this.tag_id, this.pn, this.rn).then((res) => {
-        this.mvlist = res.data.mvlist;
-        this.total = res.data.total;
-        loading.close();
-      });
+      mvList(this.tag_id, this.pn, this.rn)
+        .then((res) => {
+          this.mvlist = res.data.mvlist;
+          this.total = res.data.total;
+          loading.close();
+        })
+        .catch(() => {
+          loading.close();
+        });
     },
   },
 };
@@ -81,8 +85,8 @@ export default {
 
 <style lang="scss" scoped>
 .mv {
-	max-width: 1400px;
-	margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
   &-list {
     display: flex;
     justify-content: space-evenly;

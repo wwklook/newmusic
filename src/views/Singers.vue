@@ -67,11 +67,15 @@ export default {
       const loading = this.$loading({
         text: "加载中",
       });
-      artistInfo(this.tag_id, this.pn, this.rn).then((res) => {
-        this.artist_list = res.data.artistList;
-        this.total = parseInt(res.data.total);
-        loading.close();
-      });
+      artistInfo(this.tag_id, this.pn, this.rn)
+        .then((res) => {
+          this.artist_list = res.data.artistList;
+          this.total = parseInt(res.data.total);
+          loading.close();
+        })
+        .catch(() => {
+          loading.close();
+        });
     },
   },
 };
@@ -79,12 +83,12 @@ export default {
 
 <style lang="scss" scoped>
 .artist {
-	max-width: 1400px;
-	margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto;
   &-list {
     display: flex;
     flex-wrap: wrap;
-		justify-content: space-evenly;
+    justify-content: space-evenly;
   }
 }
 </style>

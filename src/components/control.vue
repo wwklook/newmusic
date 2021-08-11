@@ -57,7 +57,7 @@
       </div>
       <div class="right">
         <el-tooltip effect="light" content="收藏" placement="top">
-          <i class="iconfont" :class="likeIcon" @click="like"></i>
+          <i class="iconfont" :class="likeIcon" @click="like(songInfo)"></i>
         </el-tooltip>
         <el-tooltip effect="light" content="添加至歌单" placement="top">
           <i class="iconfont icon-add" @click="addLikeSong(songInfo)"></i>
@@ -69,9 +69,9 @@
             class="iconfont icon-download"
             :href="
               'https://www.wwklook.com/api/music_url?rid=' +
-              songInfo.rid +
-              '&name=' +
-              songInfo.name
+                songInfo.rid +
+                '&name=' +
+                songInfo.name
             "
           ></a>
           <i v-else class="iconfont icon-download" @click="like"></i>
@@ -195,6 +195,9 @@ export default {
     likegroup() {
       return this.$store.state.likegroup;
     },
+    islogin() {
+      return this.$store.state.isLogin;
+    },
   },
   created() {
     let data = JSON.parse(localStorage.getItem("songinfo"));
@@ -210,6 +213,7 @@ export default {
     this.$bus.on("playMusic", this.replay);
     this.$bus.on("playInit", this.playInit);
     this.$bus.on("addLikeSong", this.addLikeSong);
+    this.$bus.on("like", this.like);
     this.$bus.on("changePlay", (index) => {
       if (index == this.playList.length - 1) {
         this.playIndex = 0;
@@ -220,34 +224,33 @@ export default {
     });
   },
   methods: {
-    like() {
-      if (!this.isInit) {
+    like(data) {
+      if (!this.islogin) {
         this.$message({
-          message: "请先播放一首歌曲！",
-          type: "success",
+          message: "请先登录！",
+          type: "warning",
         });
         return;
       }
-      if (this.islike) {
-        this.$confirm(
-          `是否将《${this.playList[this.playIndex].name}》从“我喜欢”中移除？`,
-          "提示",
-          {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning",
-          }
-        )
+      if (!this.isInit && !data.rid) {
+        this.$message({
+          message: "请先播放一首歌曲！",
+          type: "warning",
+        });
+        return;
+      }
+      if (this.$store.state.iloverid.indexOf(data.rid + "") !== -1) {
+        this.$confirm(`是否将《${data.name}》从“我喜欢”中移除？`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
           .then(() => {
-            delILove(this.playList[this.playIndex].rid).then(() => {
-              let index = this.$store.state.iloverid.indexOf(
-                this.playList[this.playIndex].rid + ""
-              );
+            delILove(data.rid).then(() => {
+              let index = this.$store.state.iloverid.indexOf(data.rid + "");
               this.$store.commit("delLove", index);
               this.$message({
-                message: `已从“我喜欢”移除《${
-                  this.playList[this.playIndex].name
-                }》！`,
+                message: `已从“我喜欢”移除《${data.name}》！`,
                 type: "success",
               });
             });
@@ -259,21 +262,16 @@ export default {
             });
           });
       } else {
-        addIlove(
-          this.playList[this.playIndex],
-          this.playList[this.playIndex].rid
-        ).then(() => {
-          this.$store.commit("addLove", this.playList[this.playIndex]);
+        addIlove(data, data.rid).then(() => {
+          this.$store.commit("addLove", data);
           this.$message({
-            message: `已添加《${
-              this.playList[this.playIndex].name
-            }》至“我喜欢”`,
+            message: `已添加《${data.name}》至“我喜欢”`,
             type: "success",
           });
         });
       }
     },
-    replay() {
+    replay(times) {
       if (this.playList.length === 0 || this.isLoading) {
         return;
       }
@@ -310,6 +308,13 @@ export default {
             type: "error",
           });
           this.isLoading = false;
+
+          if (times) {
+            this.nextSong();
+            return;
+          }
+          // 获取失败重试一次, 仍然失败则下一首
+          this.replay(true);
         });
     },
     playInit() {
@@ -322,13 +327,21 @@ export default {
       this.isInit = false;
     },
     addLikeSong(data) {
-      if (!this.isInit) {
+      if (!this.islogin) {
         this.$message({
-          message: "请先播放一首歌曲！",
-          type: "success",
+          message: "请先登录！",
+          type: "warning",
         });
         return;
       }
+      if (!this.isInit && !data.rid) {
+        this.$message({
+          message: "请先播放一首歌曲！",
+          type: "warning",
+        });
+        return;
+      }
+
       this.add_data = data;
       this.$refs.add.visible = true;
     },
@@ -397,7 +410,7 @@ export default {
         this.$router.push({ name: "Playlist" });
       }
     },
-    end: function () {
+    end: function() {
       if (this.loopName == "列表循环") {
         this.nextSong();
       } else if (this.loopName == "单曲循环") {
@@ -410,7 +423,7 @@ export default {
         this.replay();
       }
     },
-    update: function () {
+    update: function() {
       let audio = this.$refs.audio;
       if (this.$route.name == "Lrc") {
         let num = this.lrclist.length - 1;
@@ -431,15 +444,15 @@ export default {
         this.progress = (audio.currentTime / audio.duration) * 400;
       }
     },
-    start: function () {
+    start: function() {
       this.time = "00:00/" + (this.songInfo.songTimeMinutes || "00:00");
       this.progress = 0;
     },
-    metadata: function () {
+    metadata: function() {
       this.progress = 0;
       this.$bus.emit("changeLrcList");
     },
-    paused: function () {
+    paused: function() {
       if (!this.isInit) {
         this.$message({
           message: "请先播放一首歌曲！",
@@ -455,7 +468,7 @@ export default {
         this.isPlaying = true;
       }
     },
-    change: function () {
+    change: function() {
       if (!this.isInit) {
         this.$message({
           message: "请先播放一首歌曲！",
@@ -467,7 +480,7 @@ export default {
       let audio = this.$refs.audio;
       audio.currentTime = (this.progress * audio.duration) / 400;
     },
-    input: function () {
+    input: function() {
       this.isClickSlider = true;
     },
     click_vol() {

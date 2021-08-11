@@ -19,7 +19,9 @@
         </div>
 
         <div class="btn">
-          <div class="play-all" @click="playAll"><i class="iconfont icon-cnt"></i>播放全部</div>
+          <div class="play-all" @click="playAll">
+            <i class="iconfont icon-cnt"></i>播放全部
+          </div>
           <div class="like" @click="like">
             <i class="iconfont" :class="likeIcon"></i>收藏
           </div>
@@ -92,11 +94,18 @@ export default {
         this.total = res.data.total;
       });
     },
-		playAll() {
+    playAll() {
       this.$store.commit("changePlaylist", this.album_info.musicList);
       this.$bus.emit("playMusic");
     },
     like() {
+      if (!this.$store.state.isLogin) {
+        this.$message({
+          message: "请先登录！",
+          type: "warning",
+        });
+        return;
+      }
       if (this.islike) {
         this.$confirm(
           `是否将《${this.album_info.album}》从“收藏的专辑”中移除？`,

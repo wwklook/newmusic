@@ -46,11 +46,15 @@ export default {
       const loading = this.$loading({
         text: "加载中",
       });
-      searchMv(this.keyword, this.pn, this.rn).then((res) => {
-        this.mvlist = res.data.mvlist;
-        this.total = parseInt(res.data.total);
-        loading.close();
-      });
+      searchMv(this.keyword, this.pn, this.rn)
+        .then((res) => {
+          this.mvlist = res.data.mvlist;
+          this.total = parseInt(res.data.total);
+          loading.close();
+        })
+        .catch(() => {
+          loading.close();
+        });
     },
   },
 };

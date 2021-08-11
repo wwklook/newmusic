@@ -1,5 +1,5 @@
 import { requests } from "./index";
-import Qs from 'qs'
+import Qs from "qs";
 
 // 获取用户信息
 export function getUserInfo() {
@@ -8,10 +8,13 @@ export function getUserInfo() {
   });
 }
 
-// 登出
-export function LogOut() {
+// 验证码
+export function getCaptcha() {
   return requests({
-    url: "/api/logout",
+    url: "/captcha/refresh/",
+    headers: {
+      "X-Requested-With": "XMLHttpRequest",
+    },
   });
 }
 
@@ -44,9 +47,9 @@ export function getCSRFtoken() {
 export function register(data) {
   return requests({
     url: "/api/register",
-    data: JSON.stringify({ data }),
+    data: Qs.stringify(data),
     method: "post",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
   });
 }
 

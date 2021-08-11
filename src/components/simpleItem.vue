@@ -11,7 +11,7 @@
         class="iconfont icon-mv"
         style="font-size: 20px; margin-left: 5px"
       />
-      <span @click="play" v-html="data.name "></span>
+      <span @click="play" v-html="data.name"></span>
     </div>
     <div class="song_singer">
       <span @click="toSinger" v-html="data.artist"></span>
@@ -25,9 +25,9 @@
         class="iconfont icon-download"
         :href="
           'https://www.wwklook.com/api/music_url?rid=' +
-          data.rid +
-          '&name=' +
-          data.name
+            data.rid +
+            '&name=' +
+            data.name
         "
       ></a>
       <i class="el-icon-delete" @click="del"></i>
@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { addIlove, delILove } from "@/network/profile";
 export default {
   props: ["data", "num"],
   computed: {
@@ -85,39 +84,7 @@ export default {
       }
     },
     like() {
-      if (this.islike) {
-        this.$confirm(`是否将《${this.data.name}》从“我喜欢”中移除？`, "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
-          .then(() => {
-            delILove(this.data.rid).then(() => {
-              let index = this.$store.state.iloverid.indexOf(
-                this.data.rid + ""
-              );
-              this.$store.commit("delLove", index);
-              this.$message({
-                message: `已从“我喜欢”移除《${this.data.name}》！`,
-                type: "success",
-              });
-            });
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "已取消删除",
-            });
-          });
-      } else {
-        addIlove(this.data, this.data.rid).then(() => {
-          this.$store.commit("addLove", this.data);
-          this.$message({
-            message: `已添加《${this.data.name}》至“我喜欢”`,
-            type: "success",
-          });
-        });
-      }
+      this.$bus.emit("like", this.data);
     },
   },
 };

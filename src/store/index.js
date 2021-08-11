@@ -167,7 +167,7 @@ export default createStore({
           .then((res) => {
             if (res.data.succeed) {
               getUserInfo().then((res) => {
-                store.commit("Init", res.data);
+                commit("Init", res.data);
                 resolve(res);
               });
             } else {
@@ -181,9 +181,9 @@ export default createStore({
       });
     },
 
-    logout({ commit, state }) {
+    logout({ commit }) {
       return new Promise((resolve, reject) => {
-        logout(state.token)
+        logout()
           .then(() => {
             commit("resetStore");
             resolve();

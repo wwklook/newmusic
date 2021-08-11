@@ -97,16 +97,25 @@ export default {
   name: "Register",
   data() {
     const validateUsername = (rule, value, callback) => {
-      // if (!validUsername(value)) {
-      //   callback(new Error("请输入正确用户名"));
-      // } else {
-      //   callback();
-      // }
+      if (value.length < 4) {
+        callback(new Error("用户名不能少于4位"));
+      } else {
+        callback();
+      }
       callback();
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error("密码不能少于6位"));
+      } else if (value.length > 13) {
+        callback(new Error("密码不能大于6位"));
+      } else {
+        callback();
+      }
+    };
+    const validatePassword2 = (rule, value, callback) => {
+      if (value !== this.registerForm.password) {
+        callback(new Error("两次密码不一致"));
       } else {
         callback();
       }
@@ -114,12 +123,26 @@ export default {
     return {
       registerForm: {},
       registerRules: {
-        nickname: [{ required: true, trigger: "blur" }],
+        nickname: [{ required: true, trigger: "blur", message: "请输入昵称" }],
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: "blur", message: "请输入用户名" },
+          { validator: validateUsername, trigger: "blur" },
+          {
+            pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+$/,
+            trigger: "blur",
+            message: "用户名不允许输入特殊符号",
+          },
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
+          { required: true, trigger: "blur", message: "请输入密码" },
+          { validator: validatePassword, trigger: "blur" },
+        ],
+        password2: [
+          { required: true, trigger: "blur", message: "请输入确认密码" },
+          { validator: validatePassword2, trigger: "blur" },
+        ],
+        captcha_1: [
+          { required: true, trigger: "blur", message: "请输入验证码" },
         ],
       },
       loading: false,
@@ -163,7 +186,6 @@ export default {
     handleRegister() {
       // 登录事件
       this.$refs.registerForm.validate((valid) => {
-        console.log(valid);
         if (!valid) return false;
 
         this.loading = true;

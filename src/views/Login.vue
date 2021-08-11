@@ -50,7 +50,9 @@
       <div class="remember">
         <!-- <span>忘记密码？</span> -->
         <span>
-          <router-link :to="'/music/register?redirect=' + redirect">注册</router-link>
+          <router-link :to="'/music/register?redirect=' + redirect"
+            >注册</router-link
+          >
         </span>
       </div>
     </el-form>
@@ -61,32 +63,17 @@
 export default {
   name: "Login",
   data() {
-    const validateUsername = (rule, value, callback) => {
-      // if (!validUsername(value)) {
-      //   callback(new Error("请输入正确用户名"));
-      // } else {
-      //   callback();
-      // }
-      callback();
-    };
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("密码不能少于6位"));
-      } else {
-        callback();
-      }
-    };
     return {
       loginForm: {
-        username: "admin",
-        password: "123456",
+        username: "",
+        password: "",
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: "blur", message: "用户名不能为空" },
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
+          { required: true, trigger: "blur", message: "密码不能为空" },
         ],
       },
       loading: false,
@@ -122,22 +109,20 @@ export default {
     handleLogin() {
       // 登录事件
       this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          this.loading = true;
-          this.$store
-            .dispatch("login", this.loginForm)
-            .then((res) => {
-              this.$message.success(res.data.message);
-              this.loading = false;
-              this.$router.replace({ path: this.redirect || "/music" });
-            })
-            .catch((err) => {
-              this.$message.error(err);
-              this.loading = false;
-            });
-        } else {
-          return false;
-        }
+        if (!valid) return false;
+
+        this.loading = true;
+        this.$store
+          .dispatch("login", this.loginForm)
+          .then((res) => {
+            this.$message.success(res.data.message);
+            this.loading = false;
+            this.$router.replace({ path: this.redirect || "/music" });
+          })
+          .catch((err) => {
+            this.$message.error(err);
+            this.loading = false;
+          });
       });
     },
   },

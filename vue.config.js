@@ -56,7 +56,7 @@ module.exports = {
           "^/api": "/api",
         },
       },
-			"/captcha": {
+      "/captcha": {
         target: "https://www.wwklook.com",
         secure: true,
         changeOrigin: true,

@@ -20,9 +20,9 @@
           <div v-for="(item, index) in likegroup" :key="item.group_id">
             <span
               :class="{
-                selected: index === group_index && name === 'Rcm',
+                selected: index === groupIndex && name === 'Rcm',
               }"
-              @click="toLike(index)"
+              @click="toLike(item.group_id)"
               >{{ item.name }}</span
             >
           </div>
@@ -94,15 +94,20 @@ export default {
     isLogin() {
       return this.$store.state.isLogin;
     },
+    groupIndex() {
+      for (let i = 0; i < this.$store.state.likegroup.length; i++) {
+        const item = this.$store.state.likegroup[i];
+        if (item.group_id == this.$route.query.gid) {
+          return i;
+        }
+      }
+      return -1;
+    },
   },
   methods: {
-    toLike(index) {
-      this.group_index = index;
+    toLike(group_id) {
       this.$router.push(
-        "/music/profile/rcm?gid=" +
-          this.likegroup[index].group_id +
-          "&index=" +
-          index
+        "/music/profile/rcm?gid=" + group_id
       );
     },
     toLove() {
@@ -128,7 +133,7 @@ export default {
         },
       })
         .then(({ value }) => {
-          addLikeGroup(value).then((res) => {
+          addLikeGroup(value).then(() => {
             getLikeGroup().then((res) => {
               this.$store.commit("changeLikeGroup", res.data.like_group);
             });

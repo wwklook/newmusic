@@ -46,7 +46,13 @@ export default {
   computed: {
     groupinfo() {
       if (this.$store.state.likegroup.length === 0) return {};
-      return this.$store.state.likegroup[this.$route.query.index] || {};
+      for (let i = 0; i < this.$store.state.likegroup.length; i++) {
+        const item = this.$store.state.likegroup[i];
+        if (item.group_id == this.$route.query.gid) {
+          return item;
+        }
+      }
+      return {};
     },
   },
   created() {

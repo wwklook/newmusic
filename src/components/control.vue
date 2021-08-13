@@ -310,6 +310,9 @@ export default {
           this.isLoading = false;
 
           if (times) {
+            if (this.playList.length === 1) {
+              return;
+            }
             this.nextSong();
             return;
           }

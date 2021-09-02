@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import mitt from "mitt";
+import i18n from "./lang";
 import installElementPlus from "./plugins/element";
 import { getUserInfo, getCSRFtoken } from "@/network/profile.js";
 
@@ -12,6 +13,7 @@ app.config.globalProperties.$bus = new mitt(); //绑定事件总线
 installElementPlus(app);
 app
   .use(store)
+  .use(i18n)
   .use(router)
   .mount("#app");
 

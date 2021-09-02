@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "cz": "npx cz",
+    "commit": "git add . && npm run cz",
+    "push": "git push"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -13,6 +16,7 @@
     "mitt": "^2.1.0",
     "sass-resources-loader": "^2.1.1",
     "vue": "^3.0.0",
+    "vue-i18n": "^9.1.7",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
@@ -23,7 +27,9 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-plugin-component": "^1.1.1",
+    "commitizen": "^4.2.4",
     "compression-webpack-plugin": "^6.1.1",
+    "cz-conventional-changelog": "^3.3.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-element-plus": "0.0.13"
@@ -32,5 +38,10 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

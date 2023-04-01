@@ -7,7 +7,7 @@ export function requests(config) {
     instance = axios.create({});
   } else {
     instance = axios.create({
-      baseURL: "https://www.wwklook.com/",
+      baseURL: "http://118.126.91.79/",
       timeout: 10000,
     });
   }

@@ -1,7 +1,7 @@
 # kuwomusic
 数据来源酷我音乐，UI也是参考酷我音乐网页版
 
-通过 [https://wwklook.com/music](https://wwklook.com/music) 预览
+通过 [http://118.126.91.79/music](http://118.126.91.79/music) 预览
 
 ps：仅用于学习使用
 
